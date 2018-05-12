@@ -1,0 +1,319 @@
+/* 
+html5doctor.com Reset Stylesheet
+v1.6.1
+Last Updated: 2010-09-17
+Author: Richard Clark - http://richclarkdesign.com 
+Twitter: @rich_clark
+*/
+
+html, body, div, span, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+abbr, address, cite, code,
+del, dfn, em, img, ins, kbd, q, samp,
+small, strong, sub, sup, var,
+b, i,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section, summary,
+time, mark, audio, video {
+    margin:0;
+    padding:0;
+    border:0;
+    outline:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+}
+
+body {
+    line-height:1;
+}
+
+article,aside,details,figcaption,figure,
+footer,header,hgroup,menu,nav,section { 
+    display:block;
+}
+
+nav ul {
+    list-style:none;
+}
+
+blockquote, q {
+    quotes:none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+    content:'';
+    content:none;
+}
+
+a {
+    margin:0;
+    padding:0;
+    font-size:100%;
+    vertical-align:baseline;
+    background:transparent;
+}
+
+/* change colours to suit your needs */
+ins {
+    background-color:#ff9;
+    color:#000;
+    text-decoration:none;
+}
+
+/* change colours to suit your needs */
+mark {
+    background-color:#ff9;
+    color:#000; 
+    font-style:italic;
+    font-weight:bold;
+}
+
+del {
+    text-decoration: line-through;
+}
+
+abbr[title], dfn[title] {
+    border-bottom:1px dotted;
+    cursor:help;
+}
+
+table {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
+/* change border colour to suit your needs */
+hr {
+    display:block;
+    height:1px;
+    border:0;   
+    border-top:1px solid #cccccc;
+    margin:1em 0;
+    padding:0;
+}
+
+input, select {
+    vertical-align:middle;
+}
+
+/*MY CODE */
+body{
+    background: #f3f3f3;
+}
+header{
+    background: #fff;
+    height:100px;
+    width:100%;
+    margin-bottom: 60px;
+}
+.header-icon{
+    display: table;
+    margin: 0 auto;
+
+}
+.header-icon img{
+    width:40px;
+    height: 40px;
+}
+header div.home-wrapper{
+    background: skyblue;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+header div.home-wrapper .header-icon ul.header-home{
+    display:inline-block;
+    margin:10px;
+}
+header div.home-wrapper .header-icon ul.header-home li{
+    float:left;
+    text-decoration: none;
+    list-style-type: none;
+    text-transform: uppercase;
+    
+    line-height: 20px;
+    color:#111;
+    font-size: 18px;
+    font-weight: 1000;
+    text-shadow: 0px 2px 2px rgba(255, 255, 255, 0.4); 
+    font-style: bold;
+}
+li.company-name{
+    margin-left: 14px;
+}
+header nav ul{
+    width:fit-contents;
+    height:40px;
+    overflow: hidden;
+    background: #333;
+}
+header nav ul li{
+    line-height: 40px;
+    list-style-type: none;
+    float: left;
+    margin-left: 10px;
+
+}
+header nav ul li:hover{
+    background-color: skyblue;
+}
+header nav ul li a{
+    text-decoration: none;
+    display: block;
+    font-weight: 300;
+    color:#fff;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-transform: uppercase;
+}
+header nav ul li.active{
+    background-color: skyblue;
+}
+ li.staff-login{
+    float: right !important;
+}
+main section{
+    width:100%;
+    overflow: auto;
+    
+}
+section .container{
+   /* margin-top:60px; */
+    width: 90%;
+    background: #fff;
+    
+    height: calc(100vh - 190px);
+    margin:0 auto;
+    overflow: auto;
+}
+.container .col-4{
+    width:80%;
+   /* background: #555; */
+    margin-left: 10px;
+    margin-top: 10px;
+}
+table, td, th {    
+    border: 1px solid #ddd;
+    text-align: left;
+}
+th.first{
+    width: 15% !important;
+}
+th {
+    background-color: #333 ;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top:10px !important;
+}
+tr:nth-child(even) {background-color: #f2f2f2;}
+th, td {
+    padding: 5px;
+}
+.container .col-12{
+    width:90%;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+@media screen and (min-width:1000px){
+    
+    .container .col-4{
+        width:25%;
+    /* background: #555; */
+        float: left;
+        margin-left: 10px;
+        margin-top: 10px;
+    }
+}
+footer{
+    margin-top: 15px;
+    height: fit-contents;
+    background: #333;
+}
+footer div.footer-wrapper ul{
+    overflow: hidden;
+}
+footer div.footer-wrapper ul li{
+    float: left;
+    list-style-type: none;
+    margin: 20px;
+} 
+footer div.footer-wrapper ul li a{
+    display: block;
+}
+footer div.footer-wrapper ul li a img{
+   width: 40px;
+   height: 40px;
+}
+footer div.footer-wrapper {
+   display: table;
+   margin: 0 auto;
+}
+footer div.copyright {
+    display: table;
+    margin: 0 auto;
+    width:fit-contents;
+}
+footer div.copyright a{
+    text-decoration: none;
+}
+#fb,#li,#cc, div.copyright{
+    color:white;
+}
+select {
+    width:100% !important;
+}
+label{
+    text-transform: uppercase;
+    line-height: 30px;
+    font-weight: 300;
+    padding-left: 10px !important; 
+}
+textarea{
+    width: 100%;
+    height: 60px;
+    overflow: auto;
+    margin-bottom: 50px;
+}
+@media screen and (min-width:1000px){
+    div.complaints{
+        width:70% !important;
+    }
+}
+button {
+    box-sizing: border-box;
+    margin-top:50px;
+    margin-left:10px;
+    width:80%;
+    color:white;
+    padding:20px;
+    background: skyblue ;
+    border-radius: 6px 6px;
+    text-transform: uppercase;
+    font-weight: 800; 
+}
+@media screen and (min-width:1000px){
+    button {
+        box-sizing: border-box;
+        margin-top:200px;
+        margin-right:10px;
+        margin-left:10px;
+        width:25%;
+        color:white;
+        padding:20px;
+        background:skyblue ;
+        border-radius: 6px 6px;
+        float:right;
+        text-transform: uppercase;
+        font-weight: 800; 
+    }
+}
