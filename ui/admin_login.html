@@ -1,0 +1,60 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>EasyFix</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="admin_login.css" />
+    <script src = "admin_login.js" type = "text/javascript"></script>
+</head>
+<body>
+   <header>
+   	   <div class = "home-wrapper">
+   		<div class = "header-icon">
+
+   			<ul class="header-home" >
+   				<li><img src="asset/here_to_Serve.png" ><li>
+   				<li class ="company-name"><p>EasyFix</p></li>
+   			</ul>
+   		</div>
+   	</div>	
+   		<nav>
+   			<ul id= "nav-menu">
+   				<li><a href = "../index.html">Home</a></li>
+   			</ul>		
+   		</nav>	
+   </header>
+   <main>
+        <script type="text/javascript">
+            function myFunction() {
+                window.location.href = 'admin_page.html';           
+            }
+        </script>
+        <section>
+            <div class ="user-login">
+              <form method = "POST">
+                <label>Staff Id: </label><br>  
+                <input type = "text" name = "email"placeholder = "Enter Staff Id.."><br>
+                <label>Password</label><br>
+                <input type = "password" name="password" placeholder = "Enter Password.."><br>
+                <button onclick="myFunction();return false;">Log in</button>
+              </form>
+            </div>
+        </section>
+    </main>
+    <footer>
+
+            <div class = "footer-wrapper">
+              <ul>
+                <li><a href = "#"><img src = "asset/facebook.png"></a></li>
+                <li><a href = "#"><img src = "asset/twitter.png"></a></li>
+                <li><a href = "#"><img src = "asset/instagram.png"></a></li>
+                <li><a href = "#"><img src = "asset/whatsapp.png"></a></li>
+              </ul>
+            </div>
+            <div class = "copyright">Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Facebook" id="fb">Facebook</a> from <a href="https://www.flaticon.com/"     title="Flaticon" id="li">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/"     title="Creative Commons BY 3.0" target="_blank" id= "cc">CC 3.0 BY</a></div>
+        </footer>
+   </body>
+   </html>
