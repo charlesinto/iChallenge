@@ -36,4 +36,28 @@ export function getUserRequest(req,res){
            res.end(JSON.stringify(usr_request));
         }
     })
+    
+}
+export function getUserByRequestId(req,res){
+    fs.readFile(request_path,function(err,data){
+        if(!err){
+            id = parseInt(req.params.id);
+            requests = JSON.parse(data);
+            user_request = '';
+            requests.forEach(element => {
+                if(element.request_id === id){
+                    user_request = JSON.stringify(element);
+                    
+                }
+            });
+            if(user_request){
+                res.writeHead(200,{'content-type':'text/plain'});
+                res.end(user_request);
+            }else{
+                res.status(404).send('request not found')
+            }
+            
+           // console.log(user_request);
+        }
+    });
 }
