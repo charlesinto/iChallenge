@@ -1,0 +1,28 @@
+{
+  "name": "ichallenge",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/charlesinto/iChallenge.git"
+  },
+  "author": "charles",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/charlesinto/iChallenge/issues"
+  },
+  "homepage": "https://github.com/charlesinto/iChallenge#readme",
+  "dependencies": {
+    "nodemon": "^1.17.4"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "express": "^4.16.3",
+    "mocha": "^5.1.1",
+    "should": "^13.2.1"
+  }
+}

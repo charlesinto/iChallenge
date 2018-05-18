@@ -217,12 +217,14 @@ button{
     box-sizing:border-box;
     border-radius: 13px 7px;
     background: skyblue;
-    padding:20px;
+    padding:5px;
     margin-top:50px;
     margin-left: 10px;
     color:#fff;
     margin-bottom: 10px;
-    width:100%;
+    width:50%;
+    bottom:0;
+    position: relative;
     text-transform: uppercase;
     font-weight: 800; 
 }
@@ -248,6 +250,9 @@ label{
 footer{
     height: fit-contents;
     background: #333;
+    bottom:0;
+    width:100%;
+    position: fixed;
 }
 footer div.footer-wrapper ul{
     margin-top: 15px;
