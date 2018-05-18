@@ -16,7 +16,7 @@ import path from 'path';
 import fs from 'fs';
 import express from 'express';
 import routes from './route/index';
-import {getusers,getUserRequest, getUserByRequestId} from './hub';
+import {getusers,getUserRequest, getUserByRequestId,postRequest} from './hub';
 const app = express();
 app.use(express.json());
 app.use(express.static('public'));
@@ -24,5 +24,5 @@ app.use(express.static('public'));
 app.get(`${homeUrl}api/v1/users`, (req, res) => getusers(req, res));
 app.get(`${homeUrl}api/v1/users:id/requests`, (req, res) => getUserRequest(req, res));
 app.get(`${homeUrl}api/v1/users/requests/:id`, (req, res) => getUserByRequestId(req, res));
-
+app.get(`${homeUrl}api/v1/users/requests/:id`, (req, res) => postRequest(req, res));
 export default app;

@@ -61,3 +61,35 @@ export function getUserByRequestId(req,res){
         }
     });
 }
+export function postRequest(req, res){
+    //console.log('hi')
+    currentRequests = [];user_request = [];
+    userRequest = req.body;
+    fs.readFile(request_path,'utf8',function(err,data){
+        if(!err && req.body){
+            //console.log('go', data);
+            //console.log('current',currentRequests);
+            currentRequests = JSON.parse(data);
+            userRequest.forEach(element=>{
+                element.request_id = currentRequests.length + 1;
+                element.status = "";
+                element.DateCreated = "";
+                element.DateApproved = "";
+            });
+            for(i = 0 ; i < userRequest.length; i++){
+                currentRequests.push(userRequest[i]);
+            }
+            //console.log('new',currentRequests);
+            updateFile = JSON.stringify(currentRequests);
+            if(updateFile){
+                fs.writeFile(request_path,updateFile,'utf8', (err) =>{
+                    if(err) 
+                        res.status(404).send('error creating request');
+                    else
+                        res.send(200).send('request created');   
+                })
+            }
+            
+        }
+    });
+}
