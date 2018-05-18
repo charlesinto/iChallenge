@@ -1,0 +1,27 @@
+[
+    {
+        "id": "1",
+        "email":"charles.onuorah@yahoo.com",
+        "password":"3450"
+    },
+    {
+        "id": "2",
+        "email":"onuorahchibuike@gmai.com",
+        "password":"o6311"
+    },
+    {
+        "id": "3",
+        "email":"a@hts.com.ng",
+        "password":"12345"
+    },
+    {
+        "id":"4",
+        "email": "b@andela.com",
+        "password":"4567"
+    },
+    {
+        "id": "5",
+        "email": "c@andela.com",
+        "password": "9090"
+    }
+]
