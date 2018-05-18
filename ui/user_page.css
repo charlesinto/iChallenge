@@ -237,6 +237,9 @@ footer{
     margin-top: 15px;
     height: fit-contents;
     background: #333;
+    bottom:0;
+    width:100%;
+    position:fixed;
 }
 footer div.footer-wrapper ul{
     overflow: hidden;
@@ -289,11 +292,13 @@ textarea{
 }
 button {
     box-sizing: border-box;
-    margin-top:150px;
-    margin-left:10px;
+    margin-left: 20px;
+    margin-top: 20px;
+   bottom: 0;
+   position: relative;
     width:40%;
     color:white;
-    padding:20px;
+    padding:5px;
     background: skyblue ;
     border-radius: 6px 6px;
     text-transform: uppercase;

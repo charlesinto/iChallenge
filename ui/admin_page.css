@@ -238,6 +238,9 @@ footer{
     margin-top: 15px;
     height: fit-contents;
     background: #333;
+    bottom:0;
+    width:100%;
+    position:fixed;
 }
 footer div.footer-wrapper ul{
     overflow: hidden;
