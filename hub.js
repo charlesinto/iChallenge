@@ -14,4 +14,26 @@ export function getUsers(req,res){
 
         }
     });
+
+}
+export function getUserRequest(req,res){
+    fs.readFile(request_path,function(err,data){
+        if(!err){
+            id = parseInt(req.params.id);
+            //console.log(user_id);
+            requests = JSON.parse(data);
+            usr_request = [];
+            request.forEach(element => {
+                if(element.user_id){
+                    if(element.user_id === id){
+                        usr_request.push(element);
+                    }
+                }
+            });
+           // console.log(usr_request);
+           res.writeHead(200,{'content-type':'text/plain'});
+          // console.log(JSON.stringify(usr_request));
+           res.end(JSON.stringify(usr_request));
+        }
+    })
 }
