@@ -1,0 +1,6 @@
+
+  "scripts":{
+    "build": "babel src -d dist"
+  },
+
+  "build": "babel --preset es2015 test.js -d dist"
