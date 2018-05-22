@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon --exec babel-node index.js",
     "build": "babel src -d lib",
-    "test": "mocha --compilers js:babel-core/register test/test.js"
+    "test": "mocha --exit --compilers js:babel-core/register test/test.js"
   },
   "author": "charles",
   "license": "ISC",
