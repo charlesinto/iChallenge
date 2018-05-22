@@ -12,6 +12,7 @@ class MaintenaceController{
         this.router.get('/users',this.getUsers.bind(this));
         this.router.get('/user/:id/requests',this.getUserRequests.bind(this));
         this.router.get('/user/request/:id', this.getRequestById.bind(this));
+        this.router.post('/user/request', this.createNewRequest.bind(this));
     }
     getUsers(req,res){
         let user = maintenaceService.getUsers();
@@ -28,6 +29,15 @@ class MaintenaceController{
     }
     getRequestById(req,res){
         let requests = maintenaceService.getRequestById(parseInt(req.params.id));
+        if(requests){
+            res.sendStatus(200).send(requests);
+        }else{
+            res.sendStatus(404);
+        }
+    }
+    createNewRequest(req,res){
+        response = JSON.parse(req.body);
+        let request = maintenaceService.addRequest(request);
         if(requests){
             res.sendStatus(200).send(requests);
         }else{
