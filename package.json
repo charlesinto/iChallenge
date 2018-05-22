@@ -1,0 +1,40 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec babel-node index.js",
+    "build": "babel src -d lib",
+    "test": "mocha --compilers js:babel-core/register test/test.js"
+  },
+  "author": "charles",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "braces": "^2.3.2",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.12.0",
+    "express": "^4.16.3",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.17.4"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "chai": "^4.1.2",
+    "node-uuid": "^1.4.8"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/charlesinto/Api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/charlesinto/Api/issues"
+  },
+  "homepage": "https://github.com/charlesinto/Api#readme"
+}
