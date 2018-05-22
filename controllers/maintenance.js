@@ -14,6 +14,7 @@ class MaintenaceController{
         this.router.get('/user/request/:id', this.getRequestById.bind(this));
         this.router.post('/user/request', this.createNewRequest.bind(this));
         this.router.put('/user/request/:id', this.updateRequest.bind(this));
+        this.router.delete('/user/request/', this.deleteRequest.bind(this));
     }
     getUsers(req,res){
         let user = maintenaceService.getUsers();
@@ -51,6 +52,14 @@ class MaintenaceController{
             res.sendStatus(200).send(requests);
         }else{
             res.sendStatus(404);
+        }
+    }
+    deleteRequest(req,res){
+        let status = maintenaceService.deleteRquest(parseInt(req.params.id));
+        if(status){
+            res.sendStatus(200).send('action carried out successfully');
+        }else{
+            res.sendStatus(500).send('error occurred');
         }
     }
 }
