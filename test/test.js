@@ -1,28 +1,29 @@
-//import 'babel-polyfill'
-//import assert 
-//const assert = require('chai').assert;
-import request from 'request';
-import app from '../test';
-//const app = require('../test')
+import app from '../index'
 import chai from 'chai';
-//const chai = require('chai');
-import chaiHttp from 'chaih-http'
-const should;
-should  = chai.should();
+import chaiHttp from 'chai-http'
+const should = chai.should();
+
 chai.use(chaiHttp);
-const url = '/iTracker';
+let validateData = [
+	{
+        "requestCatgeory": "repairs",
+        "itemCategory":"machine",
+        "item":"iron",
+        "complaints":"broken iron"
+	}	
+]
 describe('Return codes', function() {
     this.timeout('15000');
     it('should get all users', (done) =>{
-        chai.request(app).get(url +'/api/v1/users/').end((req,res) =>{
+        chai.request(app).get('/iMaintenace/api/v1/users').end((req,res) =>{
             this.timeout(15000);
            res.should.have.status(200);
             done();
 
-        })
+        });
     });
     it('should get all request of a user', (done) =>{
-        chai.request(app).get(url+'/api/v1/users/:id/requests').end((req,res) =>{
+        chai.request(app).get('/iMaintenace/api/v1/user/1/requests').end((req,res) =>{
             this.timeout(15000);
            res.should.have.status(200);
           // console.log('in res',res.body);
@@ -31,7 +32,7 @@ describe('Return codes', function() {
         })
     })
     it('should get a request of a user', (done) =>{
-        chai.request(app).get(url+'/api/v1/users/requests/:id').end((req,res) =>{
+        chai.request(app).get('/iMaintenace/api/v1/user/request/3').end((req,res) =>{
             this.timeout(15000);
            res.should.have.status(200);
            //console.log('in res',res.body);
@@ -40,7 +41,7 @@ describe('Return codes', function() {
         });
     });
     it('should create a request', (done) =>{
-        chai.request(app).post(url+'/api/v1/users/requests/').end((req,res) =>{
+        chai.request(app).post('/iMaintenace/api/v1/user/request').type('form').send(validateData).end((req,res) =>{
             this.timeout(15000);
            res.should.have.status(200);
            //res.should(res.body).be.a('array');
@@ -48,7 +49,7 @@ describe('Return codes', function() {
         });
     })
     it('should modify a request', (done) =>{
-        chai.request(app).put(url+'api/v1/users/requests/:id').end((req,res) =>{
+        chai.request(app).put('/iMaintenace/api/v1/user/request/4').send(validateData).end((req,res) =>{
             this.timeout(15000);
            res.should.have.status(200);
           // res.should(res.body).be.a('array');
@@ -56,22 +57,3 @@ describe('Return codes', function() {
         })
     })
 })
-
-
-/*
-describe("Return Codes", function(){
-    it("return code", function(done){
-        request.get({url: baseUrl},(err,res,body) =>{
-           // expect(res.statusCode).to.equal(200);
-            console.log(JSON.parse(body));
-            done();
-        });
-    });
-});
-
-/*
-describe('App',function(){
-    it('app should return hello', function(){
-        assert.equal(app.sayHello(),'hello');
-    })
-})*/
