@@ -162,7 +162,7 @@ header nav ul li{
 
 }
 header nav ul li:hover{
-    background-color: skyblue;
+    background-color: #0951a8;
 }
 header nav ul li a{
     text-decoration: none;
@@ -175,7 +175,7 @@ header nav ul li a{
     text-transform: uppercase;
 }
 header nav ul li.active{
-    background-color: skyblue;
+    background-color: #0951a8;
 }
  li.staff-login{
     float: right !important;
@@ -226,7 +226,8 @@ button {
     font-weight: 800; 
 }
 form {
-    width: 90%;
+    width: 80%;
+    margin:0 auto;
 }
 label{
     text-transform: uppercase;

@@ -162,7 +162,7 @@ header nav ul li{
 
 }
 header nav ul li:hover{
-    background-color: skyblue;
+    background-color: #0951a8;
 }
 header nav ul li a{
     text-decoration: none;
@@ -175,7 +175,7 @@ header nav ul li a{
     text-transform: uppercase;
 }
 header nav ul li.active{
-    background-color: skyblue;
+    background-color: #0951a8;
 }
  li.staff-login{
     float: right !important;
@@ -192,7 +192,8 @@ div.user-login{
     height: fit-content;
 }
 form{
-    width: 90%;
+    width: 80%;
+    margin:0 auto;
 }
 input[type=email],input[type=password]{
     width:75%;
@@ -219,7 +220,7 @@ button{
     background: skyblue;
     padding:5px;
     margin-top:50px;
-    margin-left: 10px;
+    margin-left: 30px;
     color:#fff;
     margin-bottom: 10px;
     width:50%;
