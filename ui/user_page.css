@@ -160,7 +160,7 @@ header nav ul li{
 
 }
 header nav ul li:hover{
-    background-color: skyblue;
+    background-color: #0951a8;
 }
 header nav ul li a{
     text-decoration: none;
@@ -172,22 +172,25 @@ header nav ul li a{
     text-transform: uppercase;
 }
 header nav ul li.active{
-    background-color: skyblue;
+    background-color: #0951a8;
 }
  li.staff-login{
     float: right !important;
 }
 main section{
-    width:100%;
-    overflow: hidden;
-}
-section .container{
-   /* margin-top:60px; */
     width: 90%;
     background: #fff;
     
-    height: calc(100vh - 190px);
+    height: calc(100vh - 240px);
     margin:0 auto;
+}
+.container.row{
+    margin-left: 100px;
+}
+section .container{
+   /* margin-top:60px; */
+   margin-left: 40px;
+   margin-top:20px;
 }
 .container .col-4{
     width:80%;
@@ -292,7 +295,7 @@ textarea{
 }
 button {
     box-sizing: border-box;
-    margin-left: 20px;
+    margin-left: 10px;
     margin-top: 20px;
    bottom: 0;
    position: relative;
