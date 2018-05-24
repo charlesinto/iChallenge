@@ -26,10 +26,7 @@ class MaintenanceService{
     getRequest(requestId){
         return this.userRequest.filter(req => req.id === requestId) || null;
     }
-    addRequest(requests){
-        requests.id = this.userRequest.length + 1;
-        this.userRequest.push(requests);
-        return requests || null;
+    addRequest(req,res){ 
     }
     updateRequest(request){
         let obj = {};
@@ -57,8 +54,9 @@ class MaintenanceService{
         }
         return actionFlag;
     }
-    createuser(user,res){
-        const password = bcyrpt.hashSync(user.password,10)
+    createuser(req,res){
+        let user = req.body
+        const password = bcyrpt.hashSync(user.password,10);
         //perform validation
         if(user.fullName !== '' && user.email !== '' && user.phoneNumber !== ''){
             if(Validator.isEmail(user.email)){
@@ -102,6 +100,7 @@ class MaintenanceService{
     userLogIn(req, res){
         let userFound = false;let username = '';
         let user = req.body;
+        console.log('===>',user);
         let sql = 'SELECT * FROM BASE_USER WHERE email = $1';
         pool.connect((err,client,done)=>{
             if(err){

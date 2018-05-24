@@ -62,19 +62,9 @@ class MaintenanceController{
     }
     createNewRequest(req,res){
         //response = JSON.parse(req.body);
-        let request = maintenanceService.addRequest(req.body);
-        if(request){
-            res.send(request);
-        }else{
-            res.statusCode = 400;
-            res.setHeader("content-type","application/json");
-            res.json({
-                message: "Sorry, your request could not be created"
-            });
-        }
+        maintenanceService.addRequest(req,res);
     }
     updateRequest(req,res){
-        console.log('here')
         let request = maintenanceService.updateRequest(req);
         if(request){
             res.send(request);
@@ -97,21 +87,22 @@ class MaintenanceController{
         }
     }
     createUser(req,res){
-        let user = req.body;
-        console.log('here',user);
-        maintenanceService.createuser(user,res);
+        maintenanceService.createuser(req,res);
         
     }
     userSign(req,res){
+        //let request = req.body;
+        console.log('hehbevyuvuyvuy')
         maintenanceService.userLogIn(req,res);
     }
     verifyToken(req,res,next){
+        /*
         const bearerHeader = req.headers['authorization'];
         if(typeof bearerHeader !== undefined){
             const token = bearerHeader.split(' ')[1];
             req.token = token;
             next();
-        }
+        }*/
     }
 }
 
