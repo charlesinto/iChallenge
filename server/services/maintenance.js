@@ -26,7 +26,46 @@ class MaintenanceService{
     getRequest(requestId){
         return this.userRequest.filter(req => req.id === requestId) || null;
     }
-    addRequest(req,res){ 
+    addRequest(req,res){
+        let loggedInUser; let userid;
+        let request = req.body;
+        jwt.verify(req.token, 'user',{expiresIn: '30m'} ,(err, authData)=>{
+            if(!err){
+                let sql = 'SELECT * FROM BASE_USER where email = $1'
+                pool.connect( (err,client,done)=>{
+                    client.query(sql,[authData.user.email], (err, result)=>{
+                        if(err){
+
+                        }else{
+                            let dataSet = result.rows;
+                            if(result.rowCount > 0){
+                                let userRecord = dataSet.filter(rec => bcyrpt.compareSync(authData.user.password, rec.password));
+                                if(userRecord){
+                                     userid = userRecord[0].id;
+                                     console.log("????",userid);
+                                }
+                            }
+                            let date = new Date();
+                            let sql = "INSERT INTO BASE_REQUEST (item,itemCategory,requestCategory, complaints, userid, status, datecreated) VAlUES ($1,$2,$3,$4,$5,$6,$7)";
+                            client.query(sql, [request.item, request.itemCategory,request.requestCategory,request.complaints,userid,"PENDING",new Date()],(err,result) =>{
+                                if(err){
+                                   res.sendStatus(500).send(err);
+                                }else{
+                                    res.statusCode = 200;
+                                    res.setHeader('content-type', 'application/json');
+                                    res.json({
+                                        message: "Request Posted Successfully"
+                                    })
+                                }
+                            })
+                        }
+                    })
+                })
+            }else{
+
+            }
+        });
+        
     }
     updateRequest(request){
         let obj = {};

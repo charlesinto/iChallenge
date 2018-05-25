@@ -14,7 +14,7 @@ class MaintenanceController{
         this.router.get('/users',this.getUsers.bind(this));
         this.router.get('/user/:id/requests',this.getUserRequests.bind(this));
         this.router.get('/user/request/:id', this.getRequestById.bind(this));
-        this.router.post('/user/request', this.createNewRequest.bind(this));
+        this.router.post('/user/request',this.verifyToken,this.createNewRequest.bind(this));
         this.router.put('/user/request/:id', this.updateRequest.bind(this));
         this.router.delete('/user/request/:id', this.deleteRequest.bind(this));
         this.router.post('/auth/signup', this.createUser.bind(this));
@@ -96,13 +96,13 @@ class MaintenanceController{
         maintenanceService.userLogIn(req,res);
     }
     verifyToken(req,res,next){
-        /*
+    
         const bearerHeader = req.headers['authorization'];
         if(typeof bearerHeader !== undefined){
             const token = bearerHeader.split(' ')[1];
             req.token = token;
             next();
-        }*/
+        }
     }
 }
 
