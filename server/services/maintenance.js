@@ -29,6 +29,12 @@ class MaintenanceService{
                     res.json(
                         dataSet.data.rows
                     )
+                }else{
+                    res.statusCode = dataSet.status;
+                    res.setHeader('content-type','application/json');
+                    res.json({
+                        message: dataSet.message
+                    })
                 }
             })
         }
