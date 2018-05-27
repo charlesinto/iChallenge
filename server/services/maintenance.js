@@ -2,6 +2,7 @@ import pool from '../DatabaseConnection';
 import Validator from 'validator';
 import jwt from 'jsonwebtoken';
 import bcyrpt from 'bcrypt';
+import Bll from '../HandleServerRequest';
 
 class MaintenanceService{
     constructor(){
@@ -11,9 +12,26 @@ class MaintenanceService{
     getUsers(){
         return this.users;
     }
-    getAllRequestOfUser(userId){
-       let requests = this.userRequest.filter(req => req.userId === userId);
-       return requests || null;
+    getAllRequestOfUser(req,res){
+        if(typeof req.token !== undefined){
+            let userId = req.token.loggedInUser.id;
+            let sql = 'SELECT * FROM BASE_REQUEST WHERE userid = $1'
+            let makeRequest = new Promise((resolve,reject)=>{
+
+                Bll.callServer(sql,[userId],(dataSet)=>{
+                    resolve(dataSet)
+                })
+            })
+            makeRequest.then((dataSet)=>{
+                if(dataSet.status === 200){
+                    res.statusCode = 200;
+                    res.setHeader('content-type', 'application/json');
+                    res.json(
+                        dataSet.data.rows
+                    )
+                }
+            })
+        }
     }
     getRequests(){
         return this.userRequest || null;
@@ -29,48 +47,35 @@ class MaintenanceService{
     addRequest(req,res){
         let loggedInUser; let userid;
         let request = req.body;
-        jwt.verify(req.token, 'user',{expiresIn: '30m'} ,(err, authData)=>{
-            if(!err){
-                let sql = 'SELECT * FROM BASE_USER where email = $1'
-                pool.connect( (err,client,done)=>{
-                    client.query(sql,[authData.user.email], (err, result)=>{
-                        if(err){
-
-                        }else{
-                            let dataSet = result.rows;
-                            if(result.rowCount > 0){
-                                let userRecord = dataSet.filter(rec => bcyrpt.compareSync(authData.user.password, rec.password));
-                                if(userRecord){
-                                     userid = userRecord[0].id;
-                                     console.log("????",userid);
-                                }
-                            }
-                            let date = new Date();
-                            let sql = "INSERT INTO BASE_REQUEST (item,itemCategory,requestCategory, complaints, userid, status, datecreated) VAlUES ($1,$2,$3,$4,$5,$6,$7)";
-                            client.query(sql, [request.item, request.itemCategory,request.requestCategory,request.complaints,userid,"PENDING",new Date()],(err,result) =>{
-                                if(err){
-                                   res.sendStatus(500).send(err);
-                                }else{
-                                    res.statusCode = 200;
-                                    res.setHeader('content-type', 'application/json');
-                                    res.json({
-                                        message: "Request Posted Successfully"
-                                    })
-                                }
-                            })
-                        }
-                    })
+        if(req.token !== undefined){
+            let userId = req.token.loggedInUser.id;
+            let sql = "INSERT INTO BASE_REQUEST (item,itemCategory,requestCategory, complaints, userid, status, datecreated) VAlUES ($1,$2,$3,$4,$5,$6,$7)";
+            let req2 = new Promise((resolve,reject)=>{
+             Bll.callServer(sql,[request.item, request.itemCategory,request.requestCategory,request.complaints,userId,"PENDING",'NOW()'],(DT)=>{
+             resolve(DT);
                 })
-            }else{
 
-            }
-        });
-        
+            });
+             req2.then((dataSet)=>{
+                if(dataSet.status == 200){
+                    res.statusCode = 200;
+                    res.setHeader('content-type','application/json');
+                    res.json({
+                        message: "Request successfully posted"
+                    })
+                }else{
+                    res.statusCode = dataSet.status;
+                    res.setHeader('content-type','application/json');
+                    res.json({
+                        message: dataSet.message
+                    })
+                }
+            })
+        }
     }
     updateRequest(request){
         let obj = {};
         let response = request.body;
-        console.log('res', response);
         this.userRequest.forEach((req) => {
             if(req.id === parseInt(request.params.id)){
                 req.requestCategory = response[0].requestCategory;
@@ -97,34 +102,53 @@ class MaintenanceService{
         let user = req.body
         const password = bcyrpt.hashSync(user.password,10);
         //perform validation
-        if(user.fullName !== '' && user.email !== '' && user.phoneNumber !== ''){
+        if(user.fullName !== '' && user.email !== '' && user.phonenumber !== ''){
             if(Validator.isEmail(user.email)){
-                if(true){
-                    pool.connect((err,client,done) =>{
-                        if(err){
-                            console.log('unable to connect to database');
-                            res.sendStatus(500).send(err);
-                        }else{
-                            let sql = 'INSERT INTO BASE_USER (fullname,email,phonenumber,password) values($1, $2, $3, $4)'
-                            client.query(sql,[user.fullName,user.email,user.phoneNumber,password],
-                            (err,result) => {
-                                if(err){
-                                   res.statusCode = 500;
-                                   res.setHeader('content-type', 'application/json');
-                                   res.json({
-                                       message: "Server error"
-                                   });
-                                }else{
+                if(/^\d+$/.test(user.phonenumber) && !/[_!*?/><{@#$%^&()]/.test(user.fullName)){
+                    let sql = 'SELECT * FROM BASE_USER WHERE email = $1'
+                    let request = new Promise((resolve,reject)=>{
+                        Bll.callServer(sql,[user.email], (dataSet)=>{
+                            resolve(dataSet);
+                        })
+                    });
+                    
+                    request.then((dataSet)=>{
+                        if(dataSet.data.rowCount == 0){
+                            let sql = 'INSERT INTO BASE_USER (fullname,email,phonenumber,password) values($1, $2, $3, $4)';
+                            let request2 = new Promise((resolve,reject)=>{
+                                Bll.callServer(sql,[user.fullName,user.email,user.phonenumber,password],(result)=>{
+                                    resolve(dataSet);
+                                });
+                            });
+                            request2.then((result)=>{
+                                if(result.status == 200){
                                     res.statusCode = 200;
                                     res.setHeader("content-type","application/json");
-                                    res.json({
+                                     res.json({
                                         message: "User created Successfully"
-                                    });
-                                    client.end();
-
+                                    }); 
                                 }
-                            });
+                                else if(result.status == 500){
+                                    res.statusCode = 500;
+                                    res.setHeader("content-type","application/json");
+                                    res.json({
+                                        message: result.message
+                                    });
+                                }
+                            })
+                        }else{
+                            res.json({
+                                message:'email exists'
+                            })
                         }
+                    
+
+                    })
+                }else{
+                    res.statusCode = 404;
+                    res.setHeader('content-type','application/json');
+                    res.json({
+                        message: "special characters not allowed in fullName field"
                     });
                 }
             }else{
@@ -138,57 +162,43 @@ class MaintenanceService{
     }
     userLogIn(req, res){
         let userFound = false;let username = '';
-        let user = req.body;
-        console.log('===>',user);
-        let sql = 'SELECT * FROM BASE_USER WHERE email = $1';
-        pool.connect((err,client,done)=>{
-            if(err){
-                res.sendStatus(500).send(err);
-            }else{
-                client.query(sql,[user.email], (err,result)=>{
-                    if(err){
-
-                    }else{
-                        //console.log(result)
-                        if(result.rowCount > 0){
-                            let dataSet = result.rows;
-                            for(let i = 0; i < dataSet.length; i++){
-                                if(bcyrpt.compareSync(user.password,dataSet[i].password)){
-                                    userFound = true;
-                                    username = dataSet[i].fullname;
-                                    break;
-                                }
-                            }
-                            if(userFound){
-                                
-                                jwt.sign({user}, 'user', (err,token)=>{
-                                    if(!err){
-                                        res.statusCode = 200;
-                                        res.setHeader('content-type', 'application/json');
-                                        res.json({
-                                            message: `Welcome ${username}`,
+        if(req !== undefined){
+            let user = req.body;
+            if(Validator.isEmail(user.email) && user.password !== ''){
+                let sql = 'SELECT * FROM BASE_USER WHERE email = $1';
+                 let request = new Promise((resolve,reject) =>{
+                    Bll.callServer(sql, [user.email], function(response){
+                        resolve(response);
+                    });
+                 });
+                 request.then((dataSet)=>{
+                     let st = dataSet.status
+                    if(parseInt(dataSet.status) === 200){
+                        let dt = dataSet.data.rows.filter(rec => bcyrpt.compareSync(user.password, rec.password));
+                        if(typeof dt !== undefined && dt.length > 0){
+                            let loggedInUser = dt[0];
+                            jwt.sign({loggedInUser},'user', {expiresIn:'6h'},(err,token)=>{
+                                if(err){
+                                    res.statusCode = 401;
+                                    res.setHeader('content-type', 'application/json');
+                                    res.json({
+                                        message: "couldnt perform log in"
+                                    });
+                                }else{
+                                    res.statusCode = 200;
+                                         res.setHeader('content-type', 'application/json');
+                                         res.json({
+                                            message: `Welcome ${loggedInUser.fullname}`,
                                             token
                                         });
-                                    }
-                                });
-                            }else{
-                                res.statusCode = 404;
-                                res.setHeader('content-type','application/json');
-                                res.json({
-                                    message: "Login failed"
-                                });
-                            }
-                        }else{
-                            res.statusCode = 404;
-                            res.setHeader('content-type','application/json');
-                            res.json({
-                                message: "Login failed"
-                            });
+                                }
+                            })
                         }
                     }
-                })
+                })   
+                
             }
-        })
+        }
     }
     
 }

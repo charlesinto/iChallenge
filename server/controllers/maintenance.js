@@ -4,7 +4,9 @@ import { parse } from 'url';
 import Validator from 'validator';
 import bcyrpt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-
+/*
+    reference - https://html5hive.org/how-to-create-rest-api-with-node-js-and-express/
+*/
 class MaintenanceController{
     constructor(router){
         this.router = router;
@@ -12,7 +14,7 @@ class MaintenanceController{
     }
     registerRouter(){
         this.router.get('/users',this.getUsers.bind(this));
-        this.router.get('/user/:id/requests',this.getUserRequests.bind(this));
+        this.router.get('/users/requests',this.verifyToken,this.getUserRequests.bind(this));
         this.router.get('/user/request/:id', this.getRequestById.bind(this));
         this.router.post('/user/request',this.verifyToken,this.createNewRequest.bind(this));
         this.router.put('/user/request/:id', this.updateRequest.bind(this));
@@ -35,18 +37,18 @@ class MaintenanceController{
         
     }
     getUserRequests(req,res){
-        let requests  = maintenanceService.getAllRequestOfUser(parseInt(req.params.id));
-        console.log(requests);
-        if(requests){
-            res.statusCode = 200;
-            res.send(requests);
-        }else{
-            res.statusCode = 400;
-            res.setHeader("content-type","application/json");
-            res.json({
-                message: "Sorry, your request could not be created"
-            });
-        }
+        maintenanceService.getAllRequestOfUser(req,res);
+        // console.log(requests);
+        // if(requests){
+        //     res.statusCode = 200;
+        //     res.send(requests);
+        // }else{
+        //     res.statusCode = 400;
+        //     res.setHeader("content-type","application/json");
+        //     res.json({
+        //         message: "Sorry, your request could not be created"
+        //     });
+        // }
     }
     getRequestById(req,res){
         let requests = maintenanceService.getRequest(parseInt(req.params.id));
@@ -92,17 +94,31 @@ class MaintenanceController{
     }
     userSign(req,res){
         //let request = req.body;
-        console.log('hehbevyuvuyvuy')
         maintenanceService.userLogIn(req,res);
     }
     verifyToken(req,res,next){
     
-        const bearerHeader = req.headers['authorization'];
-        if(typeof bearerHeader !== undefined){
-            const token = bearerHeader.split(' ')[1];
-            req.token = token;
-            next();
+        const bearerHeader = req.body.token || req.headers['authorization'];
+
+        if (!bearerHeader){
+            res.status(401).send({
+                message: 'Unauthorized user'
+            })
+        } else if(typeof bearerHeader !== undefined){
+            jwt.verify(bearerHeader, 'user' ,(err, authData) => {
+
+                if(err) {
+                    res.status(403).send({
+                        message: "Forbidden access"
+                    })
+                }
+              req.token = authData;
+              //console.log(req.token);
+              next();
+            })
+            
         }
+        
     }
 }
 
