@@ -28,7 +28,7 @@ app.use('/iMaintenace/api/v1', apiVersion);
 let MC = new maintenanceController(apiVersion);
 
 
-let port = process.env.PORT || 6000;
+let port = process.env.PORT || 4000;
 
 app.listen(port, () =>{console.log(`Listening on ${port}`)});
 
