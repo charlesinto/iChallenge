@@ -15,7 +15,7 @@ class MaintenanceController{
     registerRouter(){
         this.router.get('/users',this.getUsers.bind(this));
         this.router.get('/users/requests',this.verifyToken,this.getUserRequests.bind(this));
-        this.router.get('/user/request/:id', this.getRequestById.bind(this));
+        this.router.get('/user/request/:id',this.verifyToken, this.getRequestById.bind(this));
         this.router.post('/user/request',this.verifyToken,this.createNewRequest.bind(this));
         this.router.put('/user/request/:id', this.updateRequest.bind(this));
         this.router.delete('/user/request/:id', this.deleteRequest.bind(this));
@@ -38,32 +38,11 @@ class MaintenanceController{
     }
     getUserRequests(req,res){
         maintenanceService.getAllRequestOfUser(req,res);
-        // console.log(requests);
-        // if(requests){
-        //     res.statusCode = 200;
-        //     res.send(requests);
-        // }else{
-        //     res.statusCode = 400;
-        //     res.setHeader("content-type","application/json");
-        //     res.json({
-        //         message: "Sorry, your request could not be created"
-        //     });
-        // }
     }
     getRequestById(req,res){
-        let requests = maintenanceService.getRequest(parseInt(req.params.id));
-        if(requests){
-            res.send(requests);
-        }else{
-            res.statusCode = 400;
-            res.setHeader("content-type","application/json");
-            res.json({
-                message: "Bad request"
-            });
-        }
+        maintenanceService.getRequest(req,res);
     }
     createNewRequest(req,res){
-        //response = JSON.parse(req.body);
         maintenanceService.addRequest(req,res);
     }
     updateRequest(req,res){
@@ -93,7 +72,6 @@ class MaintenanceController{
         
     }
     userSign(req,res){
-        //let request = req.body;
         maintenanceService.userLogIn(req,res);
     }
     verifyToken(req,res,next){
