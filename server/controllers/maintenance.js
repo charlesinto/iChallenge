@@ -17,7 +17,7 @@ class MaintenanceController{
         this.router.get('/users/requests',this.verifyToken,this.getUserRequests.bind(this));
         this.router.get('/user/request/:id',this.verifyToken, this.getRequestById.bind(this));
         this.router.post('/user/request',this.verifyToken,this.createNewRequest.bind(this));
-        this.router.put('/user/request/:id', this.updateRequest.bind(this));
+        this.router.put('/user/request/:id',this.verifyToken, this.updateRequest.bind(this));
         this.router.delete('/user/request/:id', this.deleteRequest.bind(this));
         this.router.post('/auth/signup', this.createUser.bind(this));
         this.router.post('/auth/login',this.userSign.bind(this));
@@ -46,16 +46,16 @@ class MaintenanceController{
         maintenanceService.addRequest(req,res);
     }
     updateRequest(req,res){
-        let request = maintenanceService.updateRequest(req);
-        if(request){
-            res.send(request);
-        }else{
-            res.statusCode = 400;
-            res.setHeader("content-type","application/json");
-            res.json({
-                message: "Sorry, your request could not be created"
-            });
-        }
+        maintenanceService.updateRequest(req,res);
+        // if(request){
+        //     res.send(request);
+        // }else{
+        //     res.statusCode = 400;
+        //     res.setHeader("content-type","application/json");
+        //     res.json({
+        //         message: "Sorry, your request could not be created"
+        //     });
+        // }
     }
     deleteRequest(req,res){
         let status = maintenanceService.deleteRquest(parseInt(req.params.id));

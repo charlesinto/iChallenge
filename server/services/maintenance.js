@@ -111,19 +111,68 @@ class MaintenanceService{
             })
         }
     }
-    updateRequest(request){
-        let obj = {};
-        let response = request.body;
-        this.userRequest.forEach((req) => {
-            if(req.id === parseInt(request.params.id)){
-                req.requestCategory = response[0].requestCategory;
-                req.itemCategory = response[0].itemCategory;
-                req.item = response[0].item;
-                req.complaints = response[0].complaints;
-                obj = req;
+    updateRequest(req, res){
+        let update = req.body;
+        if(typeof req.token !== undefined && typeof update !== undefined){
+            let requestId = parseInt(req.params.id);
+            if(typeof requestId !== undefined){
+                let sql = 'SELECT * FROM BASE_REQUEST WHERE userid = $1 AND id = $2';
+                let makeRequest = new Promise((resolve,reject)=>{
+                    Bll.callServer(sql,[req.token.loggedInUser.id, requestId],(dataSet)=>{
+                        resolve(dataSet);
+                        
+                    })
+                });
+                makeRequest.then((dataSet)=>{
+                    if(dataSet.status = 200){
+                        if(typeof dataSet !== undefined && dataSet.data.rowCount > 0){
+                            if(dataSet.data.rows[0].status === 'Approved'){
+                                res.statusCode = 406;
+                                res.setHeader('content-type','application/json');
+                                res.json({
+                                    message:"Operation Not Possible"
+                                })
+                            }else{
+                                let sql = 'UPDATE BASE_REQUEST SET itemCategory = $1, item = $2 ,complaints = $3 WHERE id = $4 AND userid = $5'
+                                let req2 = new Promise((resolve,reject)=>{
+                                    Bll.callServer(sql,[update.itemcategory,update.item,update.complaints,parseInt(req.params.id), req.token.loggedInUser.id],(dataSet)=>{
+                                        
+                                        resolve(dataSet);
+                                    })
+                                });
+                                req2.then((dataSet)=>{
+                                    if(dataSet.status === 200){
+                                        res.statusCode = 200;
+                                        res.setHeader('content-type','application/json');
+                                        res.json({
+                                            message:"Update Successful"
+                                        })
+                                    }else{
+                                        res.statusCode = dataSet.status;
+                                        res.setHeader('content-type','application/json');
+                                        res.json({
+                                            message: dataSet.message
+                                        })
+                                    }
+                                })
+                            }
+                        }else{
+                            res.statusCode = 404;
+                            res.setHeader('content-type','application/json');
+                            res.json({
+                                message:"No record Found"
+                            })
+                        }
+                    }else{
+                        res.statusCode = dataSet.status;
+                        res.setHeader('content-type','application/json');
+                        res.json({
+                            message: dataSet.message
+                        })
+                    }
+                })
             }
-        });
-        return this.userRequest.filter(req => req.id === parseInt(request.params.id)) || null;
+        }
     }
     deleteRquest(id){
         let actionFlag = false;
