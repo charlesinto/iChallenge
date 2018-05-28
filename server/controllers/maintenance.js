@@ -21,6 +21,7 @@ class MaintenanceController{
         this.router.delete('/user/request/:id', this.deleteRequest.bind(this));
         this.router.post('/auth/signup', this.createUser.bind(this));
         this.router.post('/auth/login',this.verifyToken,this.userSign.bind(this));
+        this.router.get('/requests',this.verifyToken,this.getApplicationRequest.bind(this));
     }
     getUsers(req,res){
         let user = maintenanceService.getUsers();
@@ -88,6 +89,9 @@ class MaintenanceController{
             
         }
         
+    }
+    getApplicationRequest(req,res){
+        maintenanceService.getApplicationRequest(req,res);
     }
 }
 

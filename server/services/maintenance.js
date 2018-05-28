@@ -174,6 +174,39 @@ class MaintenanceService{
             }
         }
     }
+    getApplicationRequest(req,res){
+        if(typeof req.token !== undefined){
+            if(req.token.loggedInUse.roleid == 1){
+                let sql = 'SELECT * FROM BASE_REQUEST'
+                let makeRequest = new Promise((resolve,reject)=>{
+                    Bll.callServer(sql,[],(dataSet)=>{
+                        resolve(dataSet);
+                    })
+                });
+                makeRequest.then((dataSet)=>{
+                    if(dataSet.status = 200){
+                        res.statusCode = 200;
+                        res.setHeader('content-type','application/json');
+                        res.json(
+                            dataSet.data.rows
+                        );
+                    }else{
+                        res.statusCode = dataSet.status;
+                        res.setHeader('content-type','application/json');
+                        res.json({
+                            message: dataSet.message
+                        })
+                    }
+                })
+            }else{
+                res.statusCode = 401;
+                res.setHeader('content-type','application/json');
+                res.json({
+                    message: "Unathourized access"
+                })
+            }
+        }
+    }
     deleteRquest(id){
         let actionFlag = false;
         for( let i = 0; i< this.userRequest.length; i++){
