@@ -39,15 +39,47 @@ class MaintenanceService{
             })
         }
     }
-    getRequests(){
-        return this.userRequest || null;
+    getRequest(req,res){
+        if(typeof req.token !== undefined){
+            let requestId = parseInt(req.params.id);
+            if(typeof requestId !== undefined){
+                let sql = 'SELECT * FROM BASE_REQUEST WHERE userid = $1 AND id = $2';
+                let makeRequest = new Promise((resolve,reject)=>{
+                    Bll.callServer(sql,[req.token.loggedInUser.id, requestId],(dataSet)=>{
+                        resolve(dataSet);
+                    })
+                });
+                makeRequest.then((dataSet)=>{
+                    if(dataSet.status = 200){
+                        if(typeof dataSet !== undefined && dataSet.data.rowCount > 0){
+                            res.statusCode = 200;
+                            res.setHeader('content-type','application/json');
+                            res.json(dataSet.data.rows);
+                        }else{
+                            res.statusCode = 404;
+                            res.setHeader('content-type','application/json');
+                            res.json({
+                                message:"No record Found"
+                            })
+                        }
+                    }else{
+                        res.statusCode = dataSet.status;
+                        res.setHeader('content-type','application/json');
+                        res.json({
+                            message: dataSet.message
+                        })
+                    }
+                })
+            }
+        }
+        //return this.userRequest || null;
     }
     addUser(user){
         user.userId = this.users.length + 1;
         this.users.push(user);
         return this.user || null;
     }
-    getRequest(requestId){
+    getRequests(requestId){
         return this.userRequest.filter(req => req.id === requestId) || null;
     }
     addRequest(req,res){
