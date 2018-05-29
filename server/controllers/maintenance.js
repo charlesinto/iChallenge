@@ -13,31 +13,19 @@ class MaintenanceController{
         this.registerRouter();
     }
     registerRouter(){
-        this.router.get('/users',this.getUsers.bind(this));
         this.router.get('/users/requests',this.verifyToken,this.getUserRequests.bind(this));
         this.router.get('/user/request/:id',this.verifyToken, this.getRequestById.bind(this));
         this.router.post('/user/request',this.verifyToken,this.createNewRequest.bind(this));
-        this.router.post('/requests/:id/approve', this.verifyToken, this.approveRequest.bind(this));
-        this.router.post('/requests/:id/resolve', this.verifyToken, this.resolveRequest.bind(this));
+        this.router.put('/requests/:id/approve', this.verifyToken, this.approveRequest.bind(this));
+        this.router.put('/requests/:id/resolve', this.verifyToken, this.resolveRequest.bind(this));
+        this.router.put('/requests/:id/disapprove', this.verifyToken, this.disapproveRequest.bind(this));
         this.router.put('/user/request/:id',this.verifyToken, this.updateRequest.bind(this));
-        this.router.delete('/user/request/:id', this.deleteRequest.bind(this));
         this.router.post('/auth/signup', this.createUser.bind(this));
-        this.router.post('/auth/login',this.verifyToken,this.userSign.bind(this));
+        this.router.post('/auth/login',this.userSign.bind(this));
         this.router.get('/requests',this.verifyToken,this.getApplicationRequest.bind(this));
     }
-    getUsers(req,res){
-        let user = maintenanceService.getUsers();
-        if(user){
-            res.send(user)
-        }else{
-            res.statusCode = 400;
-            res.setHeader("content-type","application/json");
-            res.json({
-                message: "Sorry, your request could not be created"
-            });
-        }
-
-        
+    disapproveRequest(req,res){
+        maintenanceService.disapproveRequest(req,res);
     }
     resolveRequest(req,res){
         maintenanceService.resolveRequest(req,res);
@@ -56,16 +44,6 @@ class MaintenanceController{
     }
     updateRequest(req,res){
         maintenanceService.updateRequest(req,res);
-    }
-    deleteRequest(req,res){
-        let status = maintenanceService.deleteRquest(parseInt(req.params.id));
-        if(status){
-            res.writeHead(200, {"content-type": "text/palin"});
-            res.end('action carried out successfully')
-        }else{
-            res.writeHead(500, {"content-type": "text/palin"});
-            res.end("server error");
-        }
     }
     createUser(req,res){
         maintenanceService.createuser(req,res);

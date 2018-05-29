@@ -12,13 +12,56 @@ class MaintenanceService{
     getUsers(){
         return this.users;
     }
+    disapproveRequest(req,res){
+        const ADMIN = 1;
+        if(typeof req.token !== undefined){
+            if(req.token.loggedInUser.roleid === ADMIN){
+                let requestid = parseInt(req.params.id);
+                let sql = 'UPDATE BASE_REQUEST SET STATUS = $1 WHERE id = $2'
+                let makeRequest = new Promise((resolve,reject)=>{
+                    Bll.callServer(sql,['DISAPPROVED', requestid], (dataSet)=>{
+                        resolve(dataSet);
+                    })
+                })
+                makeRequest.then((dataSet)=>{
+                    if(dataSet.status == 200){
+                        res.statusCode = 200;
+                        res.setHeader('content-type', 'application/json');
+                        res.json({
+                            message: 'Request Disapproved'
+                            }  
+                        )     
+                    }else{
+                        res.statusCode = dataSet.status;
+                        res.setHeader('content-type','application/json');
+                        res.json({
+                        message: dataSet.message
+                        })
+                    }
+                })
+                 
+            }else{
+                res.statusCode = 401
+                res.setHeader('content-type','application/json');
+                res.json({
+                    message:'Unathourized access'
+                })
+            }
+        }else{
+            res.statusCode = 406
+            res.setHeader('content-type','application/json');
+            res.json({
+                message:'Action Could not be completed'
+            })
+        }
+    }
     resolveRequest(req,res){
         const ADMIN = 1;
         if(typeof req.token !== undefined){
             if(req.token.loggedInUser.roleid === ADMIN){
-                requestid = req.params.id;
+                let requestid = parseInt(req.params.id);
                 let sql = 'UPDATE BASE_REQUEST SET STATUS = $1 WHERE id = $2'
-                makeRequest = new Promise((resolve,reject)=>{
+                let makeRequest = new Promise((resolve,reject)=>{
                     Bll.callServer(sql,['RESOLVED', requestid], (dataSet)=>{
                         resolve(dataSet);
                     })
@@ -40,6 +83,12 @@ class MaintenanceService{
                     }
                 })
                  
+            }else{
+                res.statusCode = 401
+                res.setHeader('content-type','application/json');
+                res.json({
+                    message:'Unauthorized user'
+                })
             }
         }
     }
@@ -47,53 +96,57 @@ class MaintenanceService{
         const ADMIN = 1;
         if(typeof req.token !== undefined){
             if(req.token.loggedInUser.roleid === ADMIN){
-                requestid = parseInt(req.params.id);
+                let requestid = parseInt(req.params.id);
                 let sq = 'SELECT * FROM BASE_REQUEST WHERE id = $1'
                 let req2 = new Promise((resolve,reject)=>{
                     Bll.callServer(sq,[requestid],(dataSet)=>{
                         resolve(dataSet);
                     })
                 })
-                if(dataSet.status == 200){
-                    if(dataSet.data.rows[0] === 'PENDING'){
-                        let sql = 'UPDATE BASE_REQUEST SET STATUS = $1 WHERE id = $2'
-                        makeRequest = new Promise((resolve,reject)=>{
-                            Bll.callServer(sql,['APPROVED', requestid], (dataSet)=>{
-                                resolve(dataSet);
-                            })
-                        })
-                        makeRequest.then((dataSet)=>{
-                            if(dataSet.status == 200){
-                                res.statusCode = 200;
-                                res.setHeader('content-type', 'application/json');
-                                res.json({
-                                    message: 'Request Approved'
-                                    }  
-                                )     
-                            }else{
-                                res.statusCode = dataSet.status;
-                                res.setHeader('content-type','application/json');
-                                res.json({
-                                message: dataSet.message
+
+                req2.then((dataSet)=>{
+                    
+                    if(dataSet.status == 200){
+                        if(dataSet.data.rows[0].status === 'PENDING'){
+                            let sql = 'UPDATE BASE_REQUEST SET status = $1 WHERE id = $2'
+                            let makeRequest = new Promise((resolve,reject)=>{
+                                Bll.callServer(sql,['APPROVED', requestid], (dataSet)=>{
+                                    console.log('>>>>>>>>>>>>',dataSet);
+                                    resolve(dataSet);
                                 })
-                            }
-                        })
-                        
+                            })
+                            makeRequest.then((dataSet)=>{
+                                if(dataSet.status == 200){
+                                   // res.statusCode = 200;
+                                   // res.setHeader('content-type', 'application/json');
+                                    res.send({
+                                        message: 'Request Approved'
+                                        }  
+                                    )     
+                                }else{
+                                    res.statusCode = dataSet.status;
+                                    res.setHeader('content-type','application/json');
+                                    res.json({
+                                    message: dataSet.message
+                                    })
+                                }
+                            })
+                            
+                        }else{
+                            res.statusCode = 406
+                            res.setHeader('content-type','application/json');
+                            res.json({
+                                message:'Action Could not be completed'
+                            })
+                        }
                     }else{
-                        res.statusCode = 406
-                        res.setHeader('content-type','application/json');
-                        res.json({
-                            message:'Action Could not be completed'
-                        })
+                        res.statusCode = 404
+                            res.setHeader('content-type','application/json');
+                            res.json({
+                                message:'Request Not Found'
+                            })
                     }
-                }else{
-                    res.statusCode = 404
-                        res.setHeader('content-type','application/json');
-                        res.json({
-                            message:'Request Not Found'
-                        })
-                }
-                 
+            })  
             }else{
                 res.statusCode = 401
                 res.setHeader('content-type','application/json');
@@ -267,7 +320,8 @@ class MaintenanceService{
     }
     getApplicationRequest(req,res){
         if(typeof req.token !== undefined){
-            if(req.token.loggedInUse.roleid == 1){
+            console.log('>>>>', req.token.loggedInUser);
+            if(req.token.loggedInUser.roleid == 1){
                 let sql = 'SELECT * FROM BASE_REQUEST'
                 let makeRequest = new Promise((resolve,reject)=>{
                     Bll.callServer(sql,[],(dataSet)=>{
@@ -316,7 +370,8 @@ class MaintenanceService{
         if(user.fullName !== '' && user.email !== '' && user.phonenumber !== ''){
             if(Validator.isEmail(user.email)){
                 if(/^\d+$/.test(user.phonenumber) && !/[_!*?/><{@#$%^&()]/.test(user.fullName)){
-                    let sql = 'SELECT * FROM BASE_USER WHERE email = $1'
+                    //CHECKS IF EMAIL EXISTS
+                    let sql = 'SELECT * FROM BASE_USERS WHERE email = $1'
                     let request = new Promise((resolve,reject)=>{
                         Bll.callServer(sql,[user.email], (dataSet)=>{
                             resolve(dataSet);
@@ -324,10 +379,11 @@ class MaintenanceService{
                     });
                     
                     request.then((dataSet)=>{
+                        //IF EMAIL DOEST EXIST, CREATE USER
                         if(dataSet.data.rowCount == 0){
-                            let sql = 'INSERT INTO BASE_USER (fullname,email,phonenumber,password) values($1, $2, $3, $4)';
+                            let sql = 'INSERT INTO BASE_USERS (fullname,email,phonenumber,password,roleid,datecreated) values($1, $2, $3, $4, $5,$6)';
                             let request2 = new Promise((resolve,reject)=>{
-                                Bll.callServer(sql,[user.fullName,user.email,user.phonenumber,password],(result)=>{
+                                Bll.callServer(sql,[user.fullName,user.email,user.phonenumber,password,2,'NOW'],(result)=>{
                                     resolve(dataSet);
                                 });
                             });
@@ -376,7 +432,7 @@ class MaintenanceService{
         if(req !== undefined){
             let user = req.body;
             if(Validator.isEmail(user.email) && user.password !== ''){
-                let sql = 'SELECT * FROM BASE_USER WHERE email = $1';
+                let sql = 'SELECT * FROM BASE_USERS WHERE email = $1';
                  let request = new Promise((resolve,reject) =>{
                     Bll.callServer(sql, [user.email], function(response){
                         resolve(response);
