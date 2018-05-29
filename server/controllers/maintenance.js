@@ -17,6 +17,7 @@ class MaintenanceController{
         this.router.get('/users/requests',this.verifyToken,this.getUserRequests.bind(this));
         this.router.get('/user/request/:id',this.verifyToken, this.getRequestById.bind(this));
         this.router.post('/user/request',this.verifyToken,this.createNewRequest.bind(this));
+        this.router.post('/requests/:id/approve', this.verifyToken, this.approveRequest.bind(this));
         this.router.put('/user/request/:id',this.verifyToken, this.updateRequest.bind(this));
         this.router.delete('/user/request/:id', this.deleteRequest.bind(this));
         this.router.post('/auth/signup', this.createUser.bind(this));
@@ -36,6 +37,9 @@ class MaintenanceController{
         }
 
         
+    }
+    approveRequest(req,res){
+        maintenanceService.approveRequest(req,res);
     }
     getUserRequests(req,res){
         maintenanceService.getAllRequestOfUser(req,res);

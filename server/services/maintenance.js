@@ -12,6 +12,37 @@ class MaintenanceService{
     getUsers(){
         return this.users;
     }
+    approveRequest(req,res){
+        const ADMIN = 1;
+        if(typeof req.token !== undefined){
+            if(req.token.loggedInUser.roleid === ADMIN){
+                requestid = req.params.id;
+                let sql = 'UPDATE BASE_REQUEST SET STATUS = $1 WHERE id = $2'
+                makeRequest = new Promise((resolve,reject)=>{
+                    Bll.callServer(sql,['APPROVED', requestid], (dataSet)=>{
+                        resolve(dataSet);
+                    })
+                })
+                makeRequest.then((dataSet)=>{
+                    if(dataSet.status == 200){
+                        res.statusCode = 200;
+                        res.setHeader('content-type', 'application/json');
+                        res.json({
+                            message: 'Request Approved'
+                            }  
+                        )     
+                    }else{
+                        res.statusCode = dataSet.status;
+                        res.setHeader('content-type','application/json');
+                        res.json({
+                        message: dataSet.message
+                        })
+                    }
+                })
+                 
+            }
+        }
+    }
     getAllRequestOfUser(req,res){
         if(typeof req.token !== undefined){
             let userId = req.token.loggedInUser.id;
