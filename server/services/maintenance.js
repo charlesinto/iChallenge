@@ -12,14 +12,14 @@ class MaintenanceService{
     getUsers(){
         return this.users;
     }
-    approveRequest(req,res){
+    resolveRequest(req,res){
         const ADMIN = 1;
         if(typeof req.token !== undefined){
             if(req.token.loggedInUser.roleid === ADMIN){
                 requestid = req.params.id;
                 let sql = 'UPDATE BASE_REQUEST SET STATUS = $1 WHERE id = $2'
                 makeRequest = new Promise((resolve,reject)=>{
-                    Bll.callServer(sql,['APPROVED', requestid], (dataSet)=>{
+                    Bll.callServer(sql,['RESOLVED', requestid], (dataSet)=>{
                         resolve(dataSet);
                     })
                 })
@@ -28,7 +28,7 @@ class MaintenanceService{
                         res.statusCode = 200;
                         res.setHeader('content-type', 'application/json');
                         res.json({
-                            message: 'Request Approved'
+                            message: 'Request Resolved'
                             }  
                         )     
                     }else{
@@ -40,6 +40,66 @@ class MaintenanceService{
                     }
                 })
                  
+            }
+        }
+    }
+    approveRequest(req,res){
+        const ADMIN = 1;
+        if(typeof req.token !== undefined){
+            if(req.token.loggedInUser.roleid === ADMIN){
+                requestid = parseInt(req.params.id);
+                let sq = 'SELECT * FROM BASE_REQUEST WHERE id = $1'
+                let req2 = new Promise((resolve,reject)=>{
+                    Bll.callServer(sq,[requestid],(dataSet)=>{
+                        resolve(dataSet);
+                    })
+                })
+                if(dataSet.status == 200){
+                    if(dataSet.data.rows[0] === 'PENDING'){
+                        let sql = 'UPDATE BASE_REQUEST SET STATUS = $1 WHERE id = $2'
+                        makeRequest = new Promise((resolve,reject)=>{
+                            Bll.callServer(sql,['APPROVED', requestid], (dataSet)=>{
+                                resolve(dataSet);
+                            })
+                        })
+                        makeRequest.then((dataSet)=>{
+                            if(dataSet.status == 200){
+                                res.statusCode = 200;
+                                res.setHeader('content-type', 'application/json');
+                                res.json({
+                                    message: 'Request Approved'
+                                    }  
+                                )     
+                            }else{
+                                res.statusCode = dataSet.status;
+                                res.setHeader('content-type','application/json');
+                                res.json({
+                                message: dataSet.message
+                                })
+                            }
+                        })
+                        
+                    }else{
+                        res.statusCode = 406
+                        res.setHeader('content-type','application/json');
+                        res.json({
+                            message:'Action Could not be completed'
+                        })
+                    }
+                }else{
+                    res.statusCode = 404
+                        res.setHeader('content-type','application/json');
+                        res.json({
+                            message:'Request Not Found'
+                        })
+                }
+                 
+            }else{
+                res.statusCode = 401
+                res.setHeader('content-type','application/json');
+                res.json({
+                    message:'Unauthorized user'
+                })
             }
         }
     }
