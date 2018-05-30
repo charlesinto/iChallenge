@@ -8,8 +8,7 @@ const config = {
     max: 10, // max number of connection can be open to database
     idleTimeoutMillis: 30000,
 };
-
-//const config_online = process.env.DATABASE_URL;
-const pool = new pg.Pool(config);
+const config_online = process.env.DATABASE_URL;
+const pool = new pg.Pool(config_online);
 
 export default pool;
