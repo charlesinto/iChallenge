@@ -181,7 +181,7 @@ section .company-section{
     height: calc(100vh - 100px);
     background-position: center;
     background-size: cover;
-    background-image:  url('ui/asset/home_3.jpg');
+    background-image:  url('ui/asset/repair.jpeg');
     background-repeat: no-repeat;
 }
 footer{
