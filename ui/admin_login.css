@@ -162,7 +162,7 @@ header nav ul li{
 
 }
 header nav ul li:hover{
-    background-color: skyblue;
+    background-color: #0951a8;
 }
 header nav ul li a{
     text-decoration: none;
@@ -175,7 +175,7 @@ header nav ul li a{
     text-transform: uppercase;
 }
 header nav ul li.active{
-    background-color: skyblue;
+    background-color: #0951a8;
 }
  li.staff-login{
     float: right !important;
@@ -215,16 +215,19 @@ button {
     box-sizing: border-box;
     margin-top:50px;
     margin-left:10px;
-    width:40%;
+    width:45%;
     color:white;
-    padding:20px;
+    bottom:0;
+    position:relative;
+    padding:5px;
     background:skyblue ;
     border-radius: 6px 6px;
     text-transform: uppercase;
     font-weight: 800; 
 }
 form {
-    width: 90%;
+    width: 80%;
+    margin:0 auto;
 }
 label{
     text-transform: uppercase;
@@ -235,6 +238,9 @@ label{
 footer{
     height: fit-contents;
     background: #333;
+    bottom:0;
+    width: 100%;
+    position:fixed;
 }
 footer div.footer-wrapper ul{
     margin-top: 15px;

@@ -1,0 +1,49 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --exec --require dotenv/config babel-node index.js",
+    "build": "babel src -d lib",
+    "test": "mocha --exit --require dotenv/config --compilers js:babel-core/register server/test/test.js"
+  },
+  "engines": {
+    "node": "10.0.0"
+  },
+  "author": "charles",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "bcrypt": "^2.0.1",
+    "braces": "^2.3.2",
+    "chai-http": "^4.0.0",
+    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-plugin-import": "^2.12.0",
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.2.1",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.17.4",
+    "pg": "^7.4.3",
+    "validator": "^10.2.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "chai": "^4.1.2",
+    "dotenv": "^5.0.1",
+    "node-uuid": "^1.4.8"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/charlesinto/iChallenge.git"
+  },
+  "bugs": {
+    "url": "https://github.com/charlesinto/iChallenge/issues"
+  },
+  "homepage": "https://github.com/charlesinto/iChallenge#readme"
+}

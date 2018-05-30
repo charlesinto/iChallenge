@@ -181,16 +181,14 @@ main section{
     width: 90%;
     background: #fff;
     
-    height: calc(100vh - 240px);
+    height: calc(100vh - 190px);
     margin:0 auto;
-}
-.container.row{
-    margin-left: 100px;
+    overflow: auto;
+    
 }
 section .container{
    /* margin-top:60px; */
-   margin-left: 40px;
-   margin-top:20px;
+    margin-left: 30px;
 }
 .container .col-4{
     width:80%;
@@ -203,7 +201,7 @@ table, td, th {
     text-align: left;
 }
 th.first{
-    width: 10% !important;
+    width: 15% !important;
 }
 th {
     background-color: #333 ;
@@ -214,7 +212,6 @@ th {
 table {
     border-collapse: collapse;
     width: 100%;
-    margin-left:20px;
     margin-top:10px !important;
 }
 tr:nth-child(even) {background-color: #f2f2f2;}
@@ -287,6 +284,7 @@ textarea{
     width: 100%;
     height: 60px;
     overflow: auto;
+    margin-bottom: 50px;
 }
 @media screen and (min-width:1000px){
     div.complaints{
@@ -295,13 +293,11 @@ textarea{
 }
 button {
     box-sizing: border-box;
-    margin-left: 10px;
-    margin-top: 20px;
-   bottom: 0;
-   position: relative;
-    width:40%;
+    margin-top:50px;
+    margin-left:10px;
+    width:80%;
     color:white;
-    padding:5px;
+    padding:20px;
     background: skyblue ;
     border-radius: 6px 6px;
     text-transform: uppercase;
@@ -316,7 +312,7 @@ button {
         width:25%;
         color:white;
         padding:20px;
-        background:skyblue;
+        background:skyblue ;
         border-radius: 6px 6px;
         float:right;
         text-transform: uppercase;
