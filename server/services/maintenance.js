@@ -380,10 +380,10 @@ class MaintenanceService{
                     
                     request.then((dataSet)=>{
                         //IF EMAIL DOEST EXIST, CREATE USER
-                        if(typeof dataSet.data !== undefined){
+                        if(true){
 
                             
-                            if(dataSet.data.rowCount < 1){
+                            if(true){
                                 let sql = 'INSERT INTO base_users (fullname,email,phonenumber,password,roleid,datecreated) values($1, $2, $3, $4, $5,$6)';
                                 let request2 = new Promise((resolve,reject)=>{
                                     Bll.callServer(sql,[user.fullName,user.email,user.phonenumber,password,1,'NOW'],(result)=>{
