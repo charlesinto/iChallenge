@@ -159,7 +159,7 @@ header nav ul li{
 
 }
 header nav ul li:hover{
-    background-color: skyblue;
+    background-color: #0951a8;
 }
 header nav ul li a{
     text-decoration: none;
@@ -171,7 +171,7 @@ header nav ul li a{
     text-transform: uppercase;
 }
 header nav ul li.active{
-    background-color: skyblue;
+    background-color: #0951a8;
 }
  li.staff-login{
     float: right !important;
@@ -181,7 +181,7 @@ section .company-section{
     height: calc(100vh - 100px);
     background-position: center;
     background-size: cover;
-    background-image:  url('/asset/home_3.jpg');
+    background-image:  url('ui/asset/repair.jpeg');
     background-repeat: no-repeat;
 }
 footer{
