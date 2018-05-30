@@ -402,7 +402,8 @@ class MaintenanceService{
                                         res.statusCode = 500;
                                         res.setHeader("content-type","application/json");
                                         res.json({
-                                            message: result.message
+                                            message: result.message,
+                                            err: result.err
                                         });
                                     }
                                 })
