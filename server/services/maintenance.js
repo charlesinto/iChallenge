@@ -371,7 +371,7 @@ class MaintenanceService{
             if(Validator.isEmail(user.email)){
                 if(/^\d+$/.test(user.phonenumber) && !/[_!*?/><{@#$%^&()]/.test(user.fullName)){
                     //CHECKS IF EMAIL EXISTS
-                    let sql = 'SELECT * FROM BASE_USERS WHERE email = $1'
+                    let sql = 'SELECT * FROM base_users WHERE email = $1'
                     let request = new Promise((resolve,reject)=>{
                         Bll.callServer(sql,[user.email], (dataSet)=>{
                             resolve(dataSet);
@@ -380,10 +380,10 @@ class MaintenanceService{
                     
                     request.then((dataSet)=>{
                         //IF EMAIL DOEST EXIST, CREATE USER
-                        if(dataSet.data.rowCount == 0){
-                            let sql = 'INSERT INTO BASE_USERS (fullname,email,phonenumber,password,roleid,datecreated) values($1, $2, $3, $4, $5,$6)';
+                        if(dataSet.data.rowCount < 1){
+                            let sql = 'INSERT INTO base_users (fullname,email,phonenumber,password,roleid,datecreated) values($1, $2, $3, $4, $5,$6)';
                             let request2 = new Promise((resolve,reject)=>{
-                                Bll.callServer(sql,[user.fullName,user.email,user.phonenumber,password,2,'NOW'],(result)=>{
+                                Bll.callServer(sql,[user.fullName,user.email,user.phonenumber,password,1,'NOW'],(result)=>{
                                     resolve(dataSet);
                                 });
                             });
