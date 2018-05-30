@@ -380,36 +380,42 @@ class MaintenanceService{
                     
                     request.then((dataSet)=>{
                         //IF EMAIL DOEST EXIST, CREATE USER
-                        if(dataSet.data.rowCount < 1){
-                            let sql = 'INSERT INTO base_users (fullname,email,phonenumber,password,roleid,datecreated) values($1, $2, $3, $4, $5,$6)';
-                            let request2 = new Promise((resolve,reject)=>{
-                                Bll.callServer(sql,[user.fullName,user.email,user.phonenumber,password,1,'NOW'],(result)=>{
-                                    resolve(dataSet);
-                                });
-                            });
-                            request2.then((result)=>{
-                                if(result.status == 200){
-                                    res.statusCode = 200;
-                                    res.setHeader("content-type","application/json");
-                                     res.json({
-                                        message: "User created Successfully"
-                                    }); 
-                                }
-                                else if(result.status == 500){
-                                    res.statusCode = 500;
-                                    res.setHeader("content-type","application/json");
-                                    res.json({
-                                        message: result.message
-                                    });
-                                }
-                            })
-                        }else{
-                            res.json({
-                                message:'email exists'
-                            })
-                        }
-                    
+                        if(true){
 
+                            
+                            if(true){
+                                let sql = 'INSERT INTO base_users (fullname,email,phonenumber,password,roleid,datecreated) values($1, $2, $3, $4, $5,$6)';
+                                let request2 = new Promise((resolve,reject)=>{
+                                    Bll.callServer(sql,[user.fullName,user.email,user.phonenumber,password,2,'NOW'],(result)=>{
+                                        resolve(dataSet);
+                                    });
+                                });
+                                request2.then((result)=>{
+                                    if(result.status == 200){
+                                        res.statusCode = 200;
+                                        res.setHeader("content-type","application/json");
+                                        res.json({
+                                            message: "User created Successfully"
+                                        }); 
+                                    }
+                                    else if(result.status == 500){
+                                        res.statusCode = 500;
+                                        res.setHeader("content-type","application/json");
+                                        res.json({
+                                            message: result.message,
+                                            err: result.err
+                                        });
+                                    }
+                                })
+                            }else{
+                                res.json({
+                                    message:'email exists'
+                                })
+                            }
+                    }
+
+                    }).catch((reject)=>{
+                       console.log() 
                     })
                 }else{
                     res.statusCode = 404;

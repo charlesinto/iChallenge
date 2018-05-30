@@ -10,9 +10,10 @@ class HandleServerRequest{
         if(typeof sql !== undefined && sql !== ''){
             pool.connect((err,client,done)=>{
                 if(err){
+
                     response.message = "error connecting to database";
                     response.status = 500;
-                    response.err = err; 
+                    response.err = err.message; 
                     if( typeof cb !== undefined){
                         cb(response);
                     }
