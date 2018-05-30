@@ -61,7 +61,7 @@ class MaintenanceController{
                 message: 'Unauthorized user'
             })
         } else if(typeof bearerHeader !== undefined){
-            jwt.verify(bearerHeader, 'user' ,(err, authData) => {
+            jwt.verify(bearerHeader, process.env.SECRET_KEY ,(err, authData) => {
 
                 if(err) {
                     res.status(403).send({

@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --exec babel-node index.js",
+    "start": "nodemon --exec --require dotenv/config babel-node index.js",
     "build": "babel src -d lib",
-    "test": "mocha --exit --compilers js:babel-core/register server/test/test.js"
+    "test": "mocha --exit --require dotenv/config --compilers js:babel-core/register server/test/test.js"
+  },
+  "engines": {
+    "node": "10.0.0"
   },
   "author": "charles",
   "license": "ISC",
@@ -28,6 +31,7 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "chai": "^4.1.2",
+    "dotenv": "^5.0.1",
     "node-uuid": "^1.4.8"
   },
   "directories": {

@@ -444,7 +444,7 @@ class MaintenanceService{
                         let dt = dataSet.data.rows.filter(rec => bcyrpt.compareSync(user.password, rec.password));
                         if(typeof dt !== undefined && dt.length > 0){
                             let loggedInUser = dt[0];
-                            jwt.sign({loggedInUser},'user', {expiresIn:'6h'},(err,token)=>{
+                            jwt.sign({loggedInUser},process.env.SECRET_KEY, {expiresIn:'6h'},(err,token)=>{
                                 if(err){
                                     res.statusCode = 401;
                                     res.setHeader('content-type', 'application/json');
