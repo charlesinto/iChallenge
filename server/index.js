@@ -1,6 +1,6 @@
 import express from 'express';
-import maintenanceController from './server/controllers/maintenance';
-import maintenanceService from './server/services/maintenance';
+import maintenanceController from './controllers/maintenance';
+import maintenanceService from './services/maintenance';
 import bodyParser from 'body-parser';
 
 const apiVersion = express.Router();
