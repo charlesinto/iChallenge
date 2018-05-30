@@ -413,6 +413,8 @@ class MaintenanceService{
                             }
                     }
 
+                    }).catch((reject)=>{
+                       console.log() 
                     })
                 }else{
                     res.statusCode = 404;
