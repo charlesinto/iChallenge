@@ -386,7 +386,7 @@ class MaintenanceService{
                             if(true){
                                 let sql = 'INSERT INTO base_users (fullname,email,phonenumber,password,roleid,datecreated) values($1, $2, $3, $4, $5,$6)';
                                 let request2 = new Promise((resolve,reject)=>{
-                                    Bll.callServer(sql,[user.fullName,user.email,user.phonenumber,password,1,'NOW'],(result)=>{
+                                    Bll.callServer(sql,[user.fullName,user.email,user.phonenumber,password,2,'NOW'],(result)=>{
                                         resolve(dataSet);
                                     });
                                 });
