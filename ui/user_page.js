@@ -32,7 +32,6 @@ displayEmptyTable = function(){
 window.onload = function(){
     toogleMenu();
     toogleDiv();
-    displayEmptyTable();
 }
 
 toogleDiv = function(){

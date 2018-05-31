@@ -186,6 +186,13 @@ main section{
     overflow: auto;
     
 }
+input[type=submit].action{
+    margin-left:10px;
+    margin-bottom: 10px;
+}
+@media screen and (min-width:1000px){
+    
+}
 section .container{
    /* margin-top:60px; */
     margin-left: 30px;
