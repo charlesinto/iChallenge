@@ -1,5 +1,5 @@
 window.onload = function(){
-    displayEmptyTable();
+  
 }
 displayEmptyTable = function(){
     var tableRef = document.getElementsByTagName('table')[0].getElementsByTagName('tbody')[0];

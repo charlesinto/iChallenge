@@ -176,13 +176,34 @@ header nav ul li.active{
  li.staff-login{
     float: right !important;
 }
-section .company-section{
+main{
     width:100%;
-    height: calc(100vh - 100px);
+    height:calc(100vh );
     background-position: center;
     background-size: cover;
     background-image:  url('ui/asset/repair.jpeg');
     background-repeat: no-repeat;
+    position: fixed;
+}
+section{
+    margin-bottom: 80px;
+}
+div#infoWrapper{
+    width: 80%;
+    margin:0 auto;
+    z-index: 3;
+}
+div#info{
+    text-align: center;
+    color:#000;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 24px;
+    font-weight: 900;
+    background:#cccccc;
+    opacity: 0.8;
+    font-style: normal;
+    line-height: 150%;
+    text-shadow:1px 1px #333;
 }
 footer{
     height: fit-contents;

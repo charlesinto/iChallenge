@@ -28,43 +28,50 @@
          </header>
          <main>
              <section>
-                 <div class = "container toogle">
-                    <div class = "col-4">
-                        <label>Request Category: </label>
-                        <select style = "width:100%" disabled>
-                                <option value="0">Request Category: </option>
-                                <option value="1">Repairs </option>
-                                <option value="2">Maintenace</option>
-                        </select>
-                    </div>
-                    <div class = "col-4">
-                            <label>Item Category: </label>
-                            <select disabled>
-                                    <option value="0">Item Category: </option>
-                            </select>
-                      </div>
-                        <div class = "col-4">
-                                <label>Select Item: </label>
-                                <select disabled>
-                                        <option value="0">Select Item: </option>
-                                </select>
-                        </div>
-                        <div class = "col-4 complaints">
-                            <label>Compliants: </label><br>
-                            <textarea placeholder="Enter complaints" disabled >
-                            </textarea>
-                        </div><br>
-                        <div class = "col-12"><br>
+                    <div class = "col-12"><br>
                             <table>
                                 <thead>
                                 <tr>
                                     <th class="first">Request Id</td>
                                     <th>Request Description</th>
-                                    <th>Perfrom Action</th>    
+                                    <th>Status</th>
+                                    <th>Perfrom Action</th>
+                                    <th>Date Created</th>
+                                        
                                 </tr>
                             </thead>
                             <tbody>
-
+                                <tr>
+                                    <td>1</td>
+                                    <td>phone has shattered screen</td>
+                                    <td>Pending</td>
+                                    <td><input class="action" type="submit" value = "Approve">
+                                        <input class="action" type="submit" value = "Reject" >
+                                        <input class="action" type="submit" value = "Resolve" disabled>
+                                    </td>
+                                    <td>2018-05-31</td>
+                                </tr>
+                                <tr>
+                                        <td>2</td>
+                                        <td>washing machine has blown fuse</td>
+                                        <td>Approved</td>
+                                        <td><input class="action" type="submit" value = "Approve" disabled>
+                                            <input class="action" type="submit" value = "Reject" disabled>
+                                            <input class="action" type="submit" value = "Resolve" enabled>
+                                        </td>
+                                        <td>2018-05-31</td>
+                                </tr>
+                                <tr>
+                                        <td>3</td>
+                                        <td>iron not working</td>
+                                        <td>resolved</td>
+                                        <td>
+                                            <input class="action" type="submit" value = "Approve" disabled>
+                                            <input class="action" type="submit" value = "Reject" disabled>
+                                            <input class="action" type="submit" value = "Resolve" disabled>
+                                        </td>
+                                        <td>2018-05-31</td>
+                                    </tr>
                             </tbody>
                                 
                         </table>

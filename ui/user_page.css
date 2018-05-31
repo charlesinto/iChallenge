@@ -182,6 +182,7 @@ main section{
     background: #fff;
     
     height: calc(100vh - 240px);
+    overflow: auto;
     margin:0 auto;
 }
 .container.row{
@@ -287,6 +288,10 @@ textarea{
     width: 100%;
     height: 60px;
     overflow: auto;
+}
+input[type=submit].action{
+    position: relative;
+    float: left;
 }
 @media screen and (min-width:1000px){
     div.complaints{

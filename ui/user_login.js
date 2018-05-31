@@ -4,3 +4,6 @@
         window.location = "https://www.facebook.com"
     })
 }*/
+window.onload = function(){
+    
+}
