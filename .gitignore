@@ -28,4 +28,3 @@ www-test/
 .gwt-tmp/
 node_modules/*
 .env
-dist/

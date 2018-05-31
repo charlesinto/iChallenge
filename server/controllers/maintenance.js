@@ -10,7 +10,28 @@ import jwt from 'jsonwebtoken';
 class MaintenanceController{
     constructor(router){
         this.router = router;
-        this.registerRouter();
+       // this.registerRouter();
+        this.adminRoutes();
+        this.userRoutes();
+        this.loginRoutes();
+        
+    }
+    adminRoutes(){
+        
+        this.router.put('/requests/:id/approve', this.verifyToken, this.approveRequest.bind(this));
+        this.router.put('/requests/:id/resolve', this.verifyToken, this.resolveRequest.bind(this));
+        this.router.put('/requests/:id/disapprove', this.verifyToken, this.disapproveRequest.bind(this));
+        this.router.get('/requests',this.verifyToken,this.getApplicationRequest.bind(this));
+    }
+    userRoutes(){
+        this.router.get('/users/requests',this.verifyToken,this.getUserRequests.bind(this));
+        this.router.get('/user/request/:id',this.verifyToken, this.getRequestById.bind(this));
+        this.router.post('/user/request',this.verifyToken,this.createNewRequest.bind(this));
+        this.router.put('/user/request/:id',this.verifyToken, this.updateRequest.bind(this));
+    }
+    loginRoutes(){
+        this.router.post('/auth/signup', this.createUser.bind(this));
+        this.router.post('/auth/login',this.userSign.bind(this));
     }
     registerRouter(){
         this.router.get('/users/requests',this.verifyToken,this.getUserRequests.bind(this));
@@ -61,7 +82,7 @@ class MaintenanceController{
                 message: 'Unauthorized user'
             })
         } else if(typeof bearerHeader !== undefined){
-            jwt.verify(bearerHeader, process.env.SECRET_KEY ,(err, authData) => {
+            jwt.verify(bearerHeader, 'users',(err, authData) => {
 
                 if(err) {
                     res.status(403).send({
