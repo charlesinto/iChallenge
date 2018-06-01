@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "nodemon ./server/index.js --exec babel-node --require dotenv/config",
+    "start:dev": "cross-env NODE_ENV=DEVELOPMENT nodemon ./server/index.js --exec babel-node --require dotenv/config",
     "start": "npm run build && node ./dist/index.js",
     "build": "babel server -d dist",
-    "test": "mocha --exit --require dotenv/config --compilers js:babel-core/register server/test/test.js"
+    "test": "cross-env NODE_ENV=TEST mocha  --require dotenv/config --compilers js:babel-core/register server/test/test.js --exit"
   },
   "engines": {
     "node": "10.0.0"
@@ -32,8 +32,10 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "chai": "^4.1.2",
+    "cross-env": "^5.1.6",
     "dotenv": "^5.0.1",
-    "node-uuid": "^1.4.8"
+    "node-uuid": "^1.4.8",
+    "superagent": "^3.8.3"
   },
   "directories": {
     "lib": "lib",

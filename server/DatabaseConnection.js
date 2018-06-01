@@ -24,7 +24,7 @@ else if(process.env.NODE_ENV = 'TEST'){
 }else{
     pool = new pg.Pool({
         connectionString:process.env.DATABSE_URL, ssl:true
-    })
+    });
 }
 
 
