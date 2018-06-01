@@ -181,16 +181,19 @@ class MaintenanceService{
     addRequest(req,res){
         let loggedInUser; let userid;
         let request = req.body;
+        console.log('req',request);
         if(req.token !== undefined){
             let userId = req.token.loggedInUser.id;
             if(this.validateRequest(request)){
-                    let sql = "INSERT INTO BASE_REQUEST (item,itemCategory,requestCategory, complaints, userid, status, datecreated) VAlUES ($1,$2,$3,$4,$5,$6,$7)";
+                    let sql = "INSERT INTO BASE_REQUEST (item,itemcategory,requestcategory, complaints, userid, status, datecreated) VAlUES ($1,$2,$3,$4,$5,$6,$7)";
                     handleServerRequest.callServer(sql,[request.item, request.itemCategory,request.requestCategory,request.complaints,userId,"PENDING",'NOW()'],(dataSet)=>{
-                    if(dataSet.status == 200){
+                        console.log('dt', dataSet.data)
+                        if(dataSet.status == 200){
                         res.statusCode = 200;
                         res.setHeader('content-type','application/json');
                         res.json({
-                            message: "Request successfully posted"
+                            message: "Request successfully posted",
+                            request: dataSet.data
                         })
                     }else{
                         res.statusCode = dataSet.status;
@@ -304,6 +307,10 @@ class MaintenanceService{
         let user = req.body
         const password = bcyrpt.hashSync(user.password,10);
         //perform validation
+        user.fullName = user.fullName.trim();
+        user.email = user.email.trim();
+        user.phonenumber = user.phonenumber.trim();
+        user.password = user.password.trim();
         if(user.fullName !== '' && user.email !== '' && user.phonenumber !== ''){
             if(Validator.isEmail(user.email)){
                 if(/^\d+$/.test(user.phonenumber) && !/[_!*?/><{@#$%^&()]/.test(user.fullName)){
@@ -362,6 +369,12 @@ class MaintenanceService{
                     message: "Wrong phone number or email"
                 });
             }
+        }else{
+            res.statusCode = 400;
+            res.setHeader('content-type','application/json');
+            res.json({
+                message: "Wrong Details"
+            });
         }
     }
     userLogIn(req, res){
@@ -402,9 +415,10 @@ class MaintenanceService{
         }
     }
     validateRequest(request){
-        
+
         if(typeof request !== undefined){
-            
+            console.log('innn', request);
+            this.removeExtraSpaces(request);
             if((request.item !== '' && !/d/.test(request.item)) && (request.itemCategory !== '' && !/d/.test(request.itemCategory)) && (request.complaints !== '' && !/d/.test(request.complaints)) ){
                 return true;
             }
@@ -413,6 +427,21 @@ class MaintenanceService{
         }
 
 
+    }
+    removeExtraSpaces(request){
+        console.log('>>>>MMM',request)
+        if(typeof request.item !== undefined){
+            request.item = request.item.trim();
+        }
+        if(typeof request.item !== undefined){
+            request.complaints = request.complaints.trim();
+        }
+        if(typeof request.item !== undefined){
+            request.requestCategory = request.requestCategory.trim();
+        }
+        if(typeof request.itemCategory !== undefined){
+            request.itemCategory = request.itemCategory.trim();
+        }
     }
 }
 

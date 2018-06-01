@@ -24,6 +24,7 @@ class HandleServerRequest{
                                 response.message = "error executing query";
                                 response.status = 404;
                                 response.err = err;
+                                console.log('err', err);
                                 if( typeof cb !== undefined){
                                     cb(response);
                                 }
@@ -42,6 +43,7 @@ class HandleServerRequest{
                                 response.message = "error executing query";
                                 response.status = 500;
                                 response.err = err;
+                                console.log('err',err);
                                 if( typeof cb !== undefined){
                                     cb(response);
                                 }
