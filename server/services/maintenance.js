@@ -193,7 +193,7 @@ class MaintenanceService{
                         res.setHeader('content-type','application/json');
                         res.json({
                             message: "Request successfully posted",
-                            request: dataSet.data
+                            request: dataSet.data.rows
                         })
                     }else{
                         res.statusCode = dataSet.status;
