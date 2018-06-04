@@ -8,6 +8,10 @@ const apiVersion = express.Router();
 
 
 const app = express();
+app.use(express.static(__dirname + '../ui'));
+app.get('/', (req,res)=>{
+    res.sendFile('index.html', {root:'.'})
+});
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/iMaintenace/api/v1', apiVersion);
