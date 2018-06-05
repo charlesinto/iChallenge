@@ -10,6 +10,11 @@
     <script src="user_page.js"></script>
 </head>
 <body>
+    <script>
+        if(!localStorage.getItem('token')){
+            location.href = window.location.origin;
+        }
+    </script>
         <header>
                 <div class = "home-wrapper">
                  <div class = "header-icon">
@@ -24,7 +29,7 @@
                      <ul id= "nav-menu">
                          <li class = "active"><a href = "#">Make Request</a></li>
                          <li><a href = "#">View Request</a></li>
-                         <li class ="staff-login"><a  href = "/">Log Out</a></li>
+                         <li class ="staff-login"><a  href = "/" id = 'logOut'>Log Out</a></li>
                      </ul>		
                  </nav>	
          </header>
@@ -34,7 +39,7 @@
                      <div class = "row">
                     <div class = "col-4">
                         <label>Request Category: </label>
-                        <select style = "width:100%">
+                        <select id = 'requestCategory'style = "width:100%">
                                 <option value="0">Request Category: </option>
                                 <option value="1">Repairs </option>
                                 <option value="2">Maintenace</option>
@@ -42,16 +47,16 @@
                     </div>
                     <div class = "col-4">
                             <label>Item Category: </label>
-                            <select>
+                            <select id='itemCategory'>
                                     <option value="0">Item Category: </option>
-                                    <option value="1">Electronics: </option>
-                                    <option value="2">Machines: </option>
+                                    <option value="1">Electronics </option>
+                                    <option value="2">Machines </option>
                             </select>
                       </div>
                         <div class = "col-4">
                                 <label>Select Item: </label>
-                                <select>
-                                        <option value="0">Select Item: </option>
+                                <select id='item'>
+                                        <option value="0">Select Item </option>
                                         <option value="1">Pressing iron </option>
                                         <option value="2">Washing Machiine </option>
                                         <option value="3">phone </option>
@@ -59,10 +64,9 @@
                         </div>
                         <div class = "col-4 complaints">
                             <label>Compliants: </label><br>
-                            <textarea placeholder="Enter complaints" >
-                            </textarea>
+                            <textarea id='complaints' placeholder="enter complaints"></textarea>
                         </div>
-                        <button>Log Request</button>   
+                        <button id = "logRequest">Log Request</button>   
                 </div>
                 </div>
                 <br>
@@ -70,11 +74,13 @@
                             <div class = "col-12"><br>
                                 <div>
                                 <table>
-                                    <thead>
+                                    <thead id = 'requestTable'>
                                     <tr>
                                         <th class="first">Request Id</td>
-                                        <th>Request Description</th>
-                                        <th>Request Status</th>
+                                        <th>Item</th>
+                                        <th>Complaints</th>
+                                        <th>Date Created</th>
+                                        <th>Status</th>
                                         <th>Action</th>    
                                     </tr>
                                 </thead>

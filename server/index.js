@@ -14,7 +14,7 @@ app.get('/', (req,res)=>{
 });
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use('/iMaintenace/api/v1', apiVersion);
+app.use('/api/v1', apiVersion);
 
 let MC = new maintenanceController(apiVersion);
 

@@ -181,15 +181,14 @@ class MaintenanceService{
     addRequest(req,res){
         let loggedInUser; let userid;
         let request = req.body;
-        console.log('req',request);
         if(req.token !== undefined){
             let userId = req.token.loggedInUser.id;
             if(this.validateRequest(request)){
                     let sql = "INSERT INTO BASE_REQUEST (item,itemcategory,requestcategory, complaints, userid, status, datecreated) VAlUES ($1,$2,$3,$4,$5,$6,$7)";
                     handleServerRequest.callServer(sql,[request.item, request.itemCategory,request.requestCategory,request.complaints,userId,"PENDING",'NOW()'],(dataSet)=>{
-                        console.log('dt', dataSet.data)
+                        
                         if(dataSet.status == 200){
-                        res.statusCode = 200;
+                        res.statusCode = 201;
                         res.setHeader('content-type','application/json');
                         res.json({
                             message: "Request successfully posted",
@@ -204,7 +203,7 @@ class MaintenanceService{
                     }
                 })
             }else{
-                res.statusCode = 404;
+                res.statusCode = 400;
                 res.setHeader('content-type','application/json');
                 res.json({
                     message: "One of more field is required"
@@ -384,10 +383,11 @@ class MaintenanceService{
             if(Validator.isEmail(user.email) && user.password !== ''){
                 let sql = 'SELECT * FROM BASE_USERS WHERE email = $1';
                 handleServerRequest.callServer(sql, [user.email], function(dataSet){
-                    if(typeof dataSet.data !==undefined){
+                    if(typeof dataSet.data !==undefined && dataSet.data.rowCount > 0){
                       
                         if(parseInt(dataSet.status) === 200){
                             let dt = dataSet.data.rows.filter(rec => bcyrpt.compareSync(user.password, rec.password));
+                            
                             if(typeof dt !== undefined && dt.length > 0){
                                 let loggedInUser = dt[0];
                                 jwt.sign({loggedInUser},'users', {expiresIn:'6h'},(err,token)=>{
@@ -406,12 +406,42 @@ class MaintenanceService{
                                             });
                                     }
                                 })
+                            }else{
+                                res.statusCode = 404;
+                                res.setHeader('content-type', 'application/json');
+                                res.json({
+                                    message: 'Invalid credentials'
+                                })
                             }
+                        }else{
+                            res.statusCode = 404;
+                            res.setHeader('content-type', 'application/json');
+                            res.json({
+                                message: 'Invalid credentials'
+                            })
                         }
+                    }else{
+                        res.statusCode = 404;
+                        res.setHeader('content-type', 'application/json');
+                        res.json({
+                            message: 'Invalid credentials'
+                        })
                     }
                 })   
                 
+            }else{
+                res.statusCode = 404;
+                res.setHeader('content-type', 'application/json');
+                res.json({
+                    message: 'Invalid email'
+                })
             }
+        }else{
+            res.statusCode = 404;
+            res.setHeader('content-type', 'application/json');
+            res.json({
+                message: 'Invalid credentials'
+            })
         }
     }
     validateRequest(request){

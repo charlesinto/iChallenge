@@ -177,6 +177,7 @@ header nav ul li.active{
  li.staff-login{
     float: right !important;
 }
+
 main section{
     width: 90%;
     background: #fff;
@@ -185,6 +186,19 @@ main section{
     margin:0 auto;
     overflow: auto;
     
+}
+input[type=button]{
+    margin:10px 10px;
+}
+@media screen and (max-width:1000px){
+    section .container{
+        /* margin-top:60px; */
+         overflow: auto;
+     }
+}
+.col-12 {
+    width: 80%;
+    margin:0 auto;
 }
 section .container{
    /* margin-top:60px; */
@@ -239,7 +253,7 @@ footer{
     background: #333;
     bottom:0;
     width:100%;
-    position:fixed;
+   position:fixed;
 }
 footer div.footer-wrapper ul{
     overflow: hidden;

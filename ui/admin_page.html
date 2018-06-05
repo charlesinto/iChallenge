@@ -10,6 +10,11 @@
     <script src="admin_page.js"></script>
 </head>
 <body>
+        <script>
+                if(!localStorage.getItem('token')){
+                    location.href = window.location.origin;
+                }
+            </script>
         <header>
                 <div class = "home-wrapper">
                  <div class = "header-icon">
@@ -22,55 +27,32 @@
              </div>	
                  <nav>
                      <ul id= "nav-menu">
-                         <li class ="staff-login"><a  href = "/">Log Out</a></li>
+                         <li class ="staff-login"><a  href = "/" id = 'logOut'>Log Out</a></li>
                      </ul>		
                  </nav>	
          </header>
          <main>
              <section>
-                 <div class = "container toogle">
-                    <div class = "col-4">
-                        <label>Request Category: </label>
-                        <select style = "width:100%" disabled>
-                                <option value="0">Request Category: </option>
-                                <option value="1">Repairs </option>
-                                <option value="2">Maintenace</option>
-                        </select>
-                    </div>
-                    <div class = "col-4">
-                            <label>Item Category: </label>
-                            <select disabled>
-                                    <option value="0">Item Category: </option>
-                            </select>
-                      </div>
-                        <div class = "col-4">
-                                <label>Select Item: </label>
-                                <select disabled>
-                                        <option value="0">Select Item: </option>
-                                </select>
-                        </div>
-                        <div class = "col-4 complaints">
-                            <label>Compliants: </label><br>
-                            <textarea placeholder="Enter complaints" disabled >
-                            </textarea>
-                        </div><br>
-                        <div class = "col-12"><br>
-                            <table>
+                    <div class = "col-12"><br>
+                            <table id = 'requestTable'>
                                 <thead>
                                 <tr>
-                                    <th class="first">Request Id</td>
-                                    <th>Request Description</th>
-                                    <th>Perfrom Action</th>    
+                                    <th>Request Id</th>
+                                    <th>Item</th>
+                                    <th>Complaints</th>
+                                    <th>Date Created</th>
+                                    <th>Status</th>
+                                    <th>Perfrom Action</th>
+                                    
                                 </tr>
                             </thead>
                             <tbody>
 
                             </tbody>
                                 
-                        </table>
+                            </table>
+                        </div>
                     </div> 
-                </div>
-               
              </section>
          </main>
          <footer>

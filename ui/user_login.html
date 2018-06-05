@@ -27,23 +27,18 @@
       </nav> 
    </header>
    <main>
-      <script type="text/javascript">
-        function myFunction() {
-            window.location.href = 'user_page.html';           
-        }
-    </script>
       <section>
           <div class ="user-login"><br>
             <form method = "POST">
                 <label>Email Address: </label><br> 
-              <input type = "email" name = "email"placeholder = "Enter Email.."><br><br>
+              <input type = "email" name = "email" id = "email" placeholder = "Enter Email.."><br><br>
               <label>Password: </label><br>
-              <input type = "password" name="password" placeholder = "Enter Password..">
+              <input type = "password" id="pwd" name="password" placeholder = "Enter Password..">
                <div class = "alt">
 
                   <a href = "user_signup.html" id="alternative"><h6>Don't have an account? Sign Up</h6></a>
               </div>
-              <button onclick = "myFunction(); return false;">Log in</button>
+              <button>Log in</button>
             </form>
           </div>
       </section>
